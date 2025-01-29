@@ -80,7 +80,7 @@ jobs:
         git clone https://gitlab.com/OrangeFox/sync.git -b master
         cd sync
         ./orangefox_sync.sh --branch ${{ inputs.MANIFEST_BRANCH }} --path ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
-        cp -r ${GITHUB_WORKSPACE}/maintainer.png ${GITHUB_WORKSPACE}/OrangeFox/bootable/recovery/gui/theme/portrait_hdpi/images/Default/About
+        cp -r ${GITHUB_WORKSPACE}/maintainer.png ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bootable/recovery/gui/theme/portrait_hdpi/images/Default/About
 
     - name: Clone Device Tree
       run: |
