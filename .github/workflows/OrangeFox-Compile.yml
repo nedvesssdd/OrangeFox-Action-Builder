@@ -26,15 +26,15 @@ on:
         required: true
         default: '12.1'
       DEVICE_PATH:
-        description: 'Specify your Device Path'
+        description: 'Specify Your Device Path'
         required: true
         default: 'device/vivo/1938'
       DEVICE_NAME:
-        description: 'Specify your Device Codename'
+        description: 'Specify Your Device Codename'
         required: true
         default: '1938'
       BUILD_TARGET:
-        description: 'Specify your Build Target'
+        description: 'Specify Your Build Target'
         required: true
         default: 'recovery'
         type: choice
@@ -42,6 +42,11 @@ on:
         - boot
         - recovery
         - vendorboot
+      MAGISK:
+        description: 'Using Latest Magisk'
+        required: true
+        default: 'false'
+        type: boolean
 
 jobs:
   build:
@@ -82,8 +87,8 @@ jobs:
         ./orangefox_sync.sh --branch ${{ inputs.MANIFEST_BRANCH }} --path ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
         cp -r ${GITHUB_WORKSPACE}/maintainer.png ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bootable/recovery/gui/theme/portrait_hdpi/images/Default/About
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
-        git clone https://github.com/LineageOS/android_external_libncurses -b lineage-19.1 external/libncurses")
-        git clone https://github.com/LineageOS/android_external_bash -b lineage-19.1 external/bash")
+        git clone https://github.com/LineageOS/android_external_libncurses -b lineage-19.1 external/libncurses
+        git clone https://github.com/LineageOS/android_external_bash -b lineage-19.1 external/bash
         git clone https://github.com/phhusson/vendor_lptools external/lptools
 
     - name: Clone Device Tree
@@ -100,6 +105,15 @@ jobs:
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
         set -e
+        if [[ ${{ inputs.MAGISK }} == true ]]; then
+            LATEST_MAGISK_URL="$(curl -sL https://api.github.com/repos/topjohnwu/Magisk/releases/latest | jq -r . | grep browser_download_url | grep Magisk- | cut -d : -f 2,3 | sed 's/"//g')"
+            mkdir -p ~/Magisk
+            cd ~/Magisk
+            aria2c $LATEST_MAGISK_URL 2>&1 || wget $LATEST_MAGISK_URL 2>&1
+            mv $("ls" Magisk*.apk) $("ls" Magisk*.apk | sed 's/.apk/.zip/g')
+            cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
+            export FOX_USE_SPECIFIC_MAGISK_ZIP=$("ls" ~/Magisk/Magisk*.zip)
+        fi
         lunch twrp_${{ inputs.DEVICE_NAME }}-eng && make clean && mka adbd ${{ inputs.BUILD_TARGET }}image
 
     - name: Set Release Properties
