@@ -86,10 +86,6 @@ jobs:
         cd sync
         ./orangefox_sync.sh --branch ${{ inputs.MANIFEST_BRANCH }} --path ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
         cp -r ${GITHUB_WORKSPACE}/maintainer.png ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bootable/recovery/gui/theme/portrait_hdpi/images/Default/About
-        cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
-        git clone https://github.com/LineageOS/android_external_libncurses -b lineage-19.1 external/libncurses
-        git clone https://github.com/LineageOS/android_external_bash -b lineage-19.1 external/bash
-        git clone https://github.com/phhusson/vendor_lptools external/lptools
 
     - name: Clone Device Tree
       run: |
