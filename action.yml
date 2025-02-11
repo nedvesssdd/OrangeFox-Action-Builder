@@ -68,24 +68,6 @@ inputs:
     required: false
     default: ''
 
-env:
-  FOX_SYNC: ${{ inputs.FOX_SYNC }}
-  FOX_SYNC_BRANCH: ${{ inputs.FOX_SYNC_BRANCH }}
-  DEVICE: ${{ inputs.DEVICE_NAME }}
-  KERNEL_TREE: ${{ inputs.KERNEL_TREE }}
-  KERNEL_BRANCH: ${{ inputs.KERNEL_BRANCH }}
-  KERNEL_PATH: ${{ inputs.KERNEL_PATH }}
-  DEVICE_TREE: ${{ inputs.DEVICE_TREE }}
-  DEVICE_TREE_BRANCH: ${{ inputs.DEVICE_TREE_BRANCH }}
-  DEVICE_PATH: ${{ inputs.DEVICE_PATH }}
-  DEVICE_NAME: ${{ inputs.DEVICE_NAME }}
-  BUILD_TARGET: ${{ inputs.BUILD_TARGET}}
-  COMMON_TREE: ${{ inputs.COMMON_TREE }}
-  COMMON_BRANCH: ${{ inputs.COMMON_BRANCH }}
-  COMMON_PATH: ${{ inputs.COMMON_PATH }}
-  TG_CHAT_ID: ${{ inputs.TG_CHAT_ID }}
-  TG_TOKEN: ${{ inputs.TG_TOKEN }}
-
 runs:
   using: 'composite'
   steps:
@@ -137,16 +119,67 @@ runs:
             cd ${DEVICE_PATH}
             echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
         fi
+      env:
+        FOX_SYNC: ${{ inputs.FOX_SYNC }}
+        FOX_SYNC_BRANCH: ${{ inputs.FOX_SYNC_BRANCH }}
+        DEVICE: ${{ inputs.DEVICE_NAME }}
+        KERNEL_TREE: ${{ inputs.KERNEL_TREE }}
+        KERNEL_BRANCH: ${{ inputs.KERNEL_BRANCH }}
+        KERNEL_PATH: ${{ inputs.KERNEL_PATH }}
+        DEVICE_TREE: ${{ inputs.DEVICE_TREE }}
+        DEVICE_TREE_BRANCH: ${{ inputs.DEVICE_TREE_BRANCH }}
+        DEVICE_PATH: ${{ inputs.DEVICE_PATH }}
+        DEVICE_NAME: ${{ inputs.DEVICE_NAME }}
+        BUILD_TARGET: ${{ inputs.BUILD_TARGET}}
+        COMMON_TREE: ${{ inputs.COMMON_TREE }}
+        COMMON_BRANCH: ${{ inputs.COMMON_BRANCH }}
+        COMMON_PATH: ${{ inputs.COMMON_PATH }}
+        TG_CHAT_ID: ${{ inputs.TG_CHAT_ID }}
+        TG_TOKEN: ${{ inputs.TG_TOKEN }}
 
     - name: 🦊 Building OrangeFox
       shell: bash
       run: bash scripts/build.sh
+      env:
+        FOX_SYNC: ${{ inputs.FOX_SYNC }}
+        FOX_SYNC_BRANCH: ${{ inputs.FOX_SYNC_BRANCH }}
+        DEVICE: ${{ inputs.DEVICE_NAME }}
+        KERNEL_TREE: ${{ inputs.KERNEL_TREE }}
+        KERNEL_BRANCH: ${{ inputs.KERNEL_BRANCH }}
+        KERNEL_PATH: ${{ inputs.KERNEL_PATH }}
+        DEVICE_TREE: ${{ inputs.DEVICE_TREE }}
+        DEVICE_TREE_BRANCH: ${{ inputs.DEVICE_TREE_BRANCH }}
+        DEVICE_PATH: ${{ inputs.DEVICE_PATH }}
+        DEVICE_NAME: ${{ inputs.DEVICE_NAME }}
+        BUILD_TARGET: ${{ inputs.BUILD_TARGET}}
+        COMMON_TREE: ${{ inputs.COMMON_TREE }}
+        COMMON_BRANCH: ${{ inputs.COMMON_BRANCH }}
+        COMMON_PATH: ${{ inputs.COMMON_PATH }}
+        TG_CHAT_ID: ${{ inputs.TG_CHAT_ID }}
+        TG_TOKEN: ${{ inputs.TG_TOKEN }}
 
     - name: 📝 Set Release Properties
       shell: bash
       run: |
         echo "BUILD_DATE=$(TZ=Asia/Jakarta date +%Y%m%d)" >> $GITHUB_ENV
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${FOX_SYNC_BRANCH}
+      env:
+        FOX_SYNC: ${{ inputs.FOX_SYNC }}
+        FOX_SYNC_BRANCH: ${{ inputs.FOX_SYNC_BRANCH }}
+        DEVICE: ${{ inputs.DEVICE_NAME }}
+        KERNEL_TREE: ${{ inputs.KERNEL_TREE }}
+        KERNEL_BRANCH: ${{ inputs.KERNEL_BRANCH }}
+        KERNEL_PATH: ${{ inputs.KERNEL_PATH }}
+        DEVICE_TREE: ${{ inputs.DEVICE_TREE }}
+        DEVICE_TREE_BRANCH: ${{ inputs.DEVICE_TREE_BRANCH }}
+        DEVICE_PATH: ${{ inputs.DEVICE_PATH }}
+        DEVICE_NAME: ${{ inputs.DEVICE_NAME }}
+        BUILD_TARGET: ${{ inputs.BUILD_TARGET}}
+        COMMON_TREE: ${{ inputs.COMMON_TREE }}
+        COMMON_BRANCH: ${{ inputs.COMMON_BRANCH }}
+        COMMON_PATH: ${{ inputs.COMMON_PATH }}
+        TG_CHAT_ID: ${{ inputs.TG_CHAT_ID }}
+        TG_TOKEN: ${{ inputs.TG_TOKEN }}
 
     - name: 📤 Upload to Release
       uses: softprops/action-gh-release@v2
@@ -161,3 +194,20 @@ runs:
           Build: fox_${FOX_SYNC_BRANCH}
           Device: [Device Tree/Branch](${DEVICE_TREE}/tree/${DEVICE_TREE_BRANCH})
           Commit: Most recent [commit](${DEVICE_TREE}/commit/${{ env.COMMIT_ID }}) during building.
+      env:
+        FOX_SYNC: ${{ inputs.FOX_SYNC }}
+        FOX_SYNC_BRANCH: ${{ inputs.FOX_SYNC_BRANCH }}
+        DEVICE: ${{ inputs.DEVICE_NAME }}
+        KERNEL_TREE: ${{ inputs.KERNEL_TREE }}
+        KERNEL_BRANCH: ${{ inputs.KERNEL_BRANCH }}
+        KERNEL_PATH: ${{ inputs.KERNEL_PATH }}
+        DEVICE_TREE: ${{ inputs.DEVICE_TREE }}
+        DEVICE_TREE_BRANCH: ${{ inputs.DEVICE_TREE_BRANCH }}
+        DEVICE_PATH: ${{ inputs.DEVICE_PATH }}
+        DEVICE_NAME: ${{ inputs.DEVICE_NAME }}
+        BUILD_TARGET: ${{ inputs.BUILD_TARGET}}
+        COMMON_TREE: ${{ inputs.COMMON_TREE }}
+        COMMON_BRANCH: ${{ inputs.COMMON_BRANCH }}
+        COMMON_PATH: ${{ inputs.COMMON_PATH }}
+        TG_CHAT_ID: ${{ inputs.TG_CHAT_ID }}
+        TG_TOKEN: ${{ inputs.TG_TOKEN }}
