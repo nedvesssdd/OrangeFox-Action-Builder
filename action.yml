@@ -134,7 +134,7 @@ runs:
         export ALLOW_MISSING_DEPENDENCIES=true
         set -e
         build_message "lunch twrp_${{ inputs.DEVICE_NAME }}-eng"
-        lunch twrp_${{ inputs.DEVICE_NAME }}-engmake
+        lunch twrp_${{ inputs.DEVICE_NAME }}-eng
         mkfifo reading
         tee "${BUILDLOG}" < reading &
         build_message "Staring bro...🔥"
