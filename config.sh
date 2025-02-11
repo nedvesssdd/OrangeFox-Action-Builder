@@ -2,6 +2,7 @@
 export TERM=xterm-256color
 
 LOGO="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYuKUrNG9XTb4Ts5W4gBV61pfgs0Q2wxHuUv1fzKXMYQXF4g1qIYXQgbg&s=10"
+BUILDLOG="${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/build.log"
 
 # Don't change this line
 #===========================================
@@ -91,7 +92,7 @@ tg_send_document() {
 }
 
 progress() {
-    echo "BOTLOG: Build tracker process is running..."
+    echo -e ${blu} "BOTLOG: Build tracker process is running..."
     sleep 5;
 
     while [ 1 ]; do
@@ -324,8 +325,8 @@ progress() {
 build_message() {
 	if [ "$CI_MESSAGE_ID" = "" ]; then
 CI_MESSAGE_ID=$(tg_send_message --chat_id "$TG_CHAT_ID" --text "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
-<b>🖥 Branch:</b> ${FOX_SYNC_BRANCH}
-<b>📱 Device:</b> ${DEVICE_NAME}
+<b>🖥 Branch:</b> ${FOX_BRANCH}
+<b>📱 Device:</b> ${DEVICE}
 <b>📟 Job:</b> $(nproc --all) Paralel processing
 <b>🗃 Penyimpanan:</b> 5TB
 <b>📈 Digunakan:</b> 54.32GB
@@ -336,8 +337,8 @@ CI_MESSAGE_ID=$(tg_send_message --chat_id "$TG_CHAT_ID" --text "<b>=== 🦊 Oran
 <b>⚙️ Status:</b> ${1}" --parse_mode "html" | jq .result.message_id)
 	else
 tg_edit_message_text --chat_id "$TG_CHAT_ID" --message_id "$CI_MESSAGE_ID" --text "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
-<b>🖥 Branch:</b> ${FOX_SYNC_BRANCH}
-<b>📱 Device:</b> ${DEVICE_NAME}
+<b>🖥 Branch:</b> ${FOX_BRANCH}
+<b>📱 Device:</b> ${DEVICE}
 <b>📟 Job:</b> $(nproc --all) Paralel processing
 <b>🗃 Penyimpanan:</b> 5TB
 <b>📈 Digunakan:</b> 54.32GB
