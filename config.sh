@@ -1,8 +1,7 @@
 #!/bin/bash
 export TERM=xterm-256color
 
-START_BUILD_LOGO="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5-mjWtyBm11LHi8qJIIwZ9jEmGQ09HsMUX45lpOi5LNCpvBkoC-Loc6td&s=10"
-END_BUILD_LOGO="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYuKUrNG9XTb4Ts5W4gBV61pfgs0Q2wxHuUv1fzKXMYQXF4g1qIYXQgbg&s=10"
+LOGO="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYuKUrNG9XTb4Ts5W4gBV61pfgs0Q2wxHuUv1fzKXMYQXF4g1qIYXQgbg&s=10"
 
 # Don't change this line
 #===========================================

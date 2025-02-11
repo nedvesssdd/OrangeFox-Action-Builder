@@ -87,6 +87,7 @@ runs:
         git clone https://github.com/akhilnarang/scripts.git -b master
         cd scripts
         sudo bash setup/android_build_env.sh
+        cp ./proprietary /usr/bin
 
     - name: 🎡 Set-up Manifest Sync
       shell: bash
@@ -136,11 +137,12 @@ runs:
         build_message "lunch twrp_${{ inputs.DEVICE_NAME }}-eng"
         lunch twrp_${{ inputs.DEVICE_NAME }}-eng
         mkfifo reading
-        tee "${BUILDLOG}" < reading &
+        tee -a "${BUILDLOG}" < reading &
         build_message "Staring bro...🔥"
         sleep 2
         build_message "🛠️ Building..."
-        progress |& mka adbd ${{ inputs.BUILD_TARGET }}image -j$(nproc --all) > reading || { echo "ERROR: Failed to Build OrangeFox!" && exit 1; }
+        progress & 
+        mka adbd ${{ inputs.BUILD_TARGET }}image -j$(nproc --all) > reading || { echo "ERROR: Failed to Build OrangeFox!" && exit 1; }
         retVal=$?
         timeEnd
         statusBuild
