@@ -85,9 +85,8 @@ runs:
       run: |
         sudo cp proprietary/* /usr/bin
         sudo apt install aria2 figlet -y
-        git clone https://github.com/akhilnarang/scripts.git -b master
-        cd scripts
-        sudo bash setup/android_build_env.sh
+        git clone https://github.com/akhilnarang/scripts.git -b master .sc
+        sudo bash .sc/setup/android_build_env.sh
 
     - name: 🎡 Set-up Manifest Sync
       shell: bash
