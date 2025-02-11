@@ -95,12 +95,6 @@ runs:
         TG_TOKEN: ${{ inputs.TG_TOKEN }}
       run: |
         source config.sh
-        telegram_message() {
-            curl -s -X POST "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" \
-            -d chat_id="${TG_CHAT_ID}" \
-            -d parse_mode="HTML" \
-            -d text="$1"
-        }
         mkdir -p ${GITHUB_WORKSPACE}/OrangeFox && cd ${GITHUB_WORKSPACE}/OrangeFox
         git config --global user.name "${{ github.actor }}"
         git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
@@ -130,7 +124,6 @@ runs:
         source config.sh
         timeStart
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}
-        telegram_message
         export LC_ALL="C"
         BUILDLOG="${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/build.log"
         build_message "Prepare for build..."
