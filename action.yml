@@ -78,15 +78,15 @@ runs:
     - name: 💽 Swap Space
       uses: pierotofy/set-swap-space@master
       with:
-        swap-size-gb: 20
+        swap-size-gb: 15
 
     - name: 🏢 Build Environment
       shell: bash
       run: |
         sudo cp proprietary/* /usr/bin
         sudo apt install aria2 -y
-        git clone https://github.com/akhilnarang/scripts.git -b master
-        cd scripts
+        git clone https://github.com/akhilnarang/scripts.git -b master .sc
+        cd .sc
         sudo bash setup/android_build_env.sh
 
     - name: 🎡 Set-up Manifest Sync

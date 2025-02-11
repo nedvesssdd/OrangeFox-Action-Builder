@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source config.sh
+source ${GITHUB_WORKSPACE}/config.sh
 timeStart
 
 cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}
