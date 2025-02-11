@@ -130,29 +130,7 @@ runs:
         TG_TOKEN: ${{ inputs.TG_TOKEN }}
         FOX_BRANCH: ${{ inputs.FOX_SYNC_BRANCH }}
         DEVICE: ${{ inputs.DEVICE_NAME }}
-      run: |
-        source config.sh
-        timeStart
-        cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}
-        echo -e ${cya} "Starting Building OrangeFox Recovery..."
-        export LC_ALL="C"
-        export BUILDLOG="${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/build.log"
-        build_message "Prepare for build..."
-        source build/envsetup.sh
-        export ALLOW_MISSING_DEPENDENCIES=true
-        build_message "lunch twrp_${{ inputs.DEVICE_NAME }}-eng"
-        lunch twrp_${{ inputs.DEVICE_NAME }}-eng
-        mkfifo reading
-        tee -a "${BUILDLOG}" < reading |&
-        build_message "Staring bro...🔥"
-        sleep 2
-        build_message "🛠️ Building..."
-        progress |& 
-        mka adbd ${{ inputs.BUILD_TARGET }}image -j$(nproc --all) > reading || { echo "ERROR: Failed to Build OrangeFox!" && exit 1; }
-        retVal=$?
-        timeEnd
-        statusBuild
-        tg_send_document ${BUILDLOG}
+      run: bash scripts/build.sh
 
     - name: 📝 Set Release Properties
       shell: bash
