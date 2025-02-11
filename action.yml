@@ -68,25 +68,26 @@ inputs:
     required: false
     default: ''
 
+env:
+  FOX_SYNC: ${{ inputs.FOX_SYNC }}
+  FOX_SYNC_BRANCH: ${{ inputs.FOX_SYNC_BRANCH }}
+  DEVICE: ${{ inputs.DEVICE_NAME }}
+  KERNEL_TREE: ${{ inputs.KERNEL_TREE }}
+  KERNEL_BRANCH: ${{ inputs.KERNEL_BRANCH }}
+  KERNEL_PATH: ${{ inputs.KERNEL_PATH }}
+  DEVICE_TREE: ${{ inputs.DEVICE_TREE }}
+  DEVICE_TREE_BRANCH: ${{ inputs.DEVICE_TREE_BRANCH }}
+  DEVICE_PATH: ${{ inputs.DEVICE_PATH }}
+  DEVICE_NAME: ${{ inputs.DEVICE_NAME }}
+  BUILD_TARGET: ${{ inputs.BUILD_TARGET}}
+  COMMON_TREE: ${{ inputs.COMMON_TREE }}
+  COMMON_BRANCH: ${{ inputs.COMMON_BRANCH }}
+  COMMON_PATH: ${{ inputs.COMMON_PATH }}
+  TG_CHAT_ID: ${{ inputs.TG_CHAT_ID }}
+  TG_TOKEN: ${{ inputs.TG_TOKEN }}
+
 runs:
   using: 'composite'
-  env:
-    FOX_SYNC: ${{ inputs.FOX_SYNC }}
-    FOX_SYNC_BRANCH: ${{ inputs.FOX_SYNC_BRANCH }}
-    DEVICE: ${{ inputs.DEVICE_NAME }}
-    KERNEL_TREE: ${{ inputs.KERNEL_TREE }}
-    KERNEL_BRANCH: ${{ inputs.KERNEL_BRANCH }}
-    KERNEL_PATH: ${{ inputs.KERNEL_PATH }}
-    DEVICE_TREE: ${{ inputs.DEVICE_TREE }}
-    DEVICE_TREE_BRANCH: ${{ inputs.DEVICE_TREE_BRANCH }}
-    DEVICE_PATH: ${{ inputs.DEVICE_PATH }}
-    DEVICE_NAME: ${{ inputs.DEVICE_NAME }}
-    BUILD_TARGET: ${{ inputs.BUILD_TARGET}}
-    COMMON_TREE: ${{ inputs.COMMON_TREE }}
-    COMMON_BRANCH: ${{ inputs.COMMON_BRANCH }}
-    COMMON_PATH: ${{ inputs.COMMON_PATH }}
-    TG_CHAT_ID: ${{ inputs.TG_CHAT_ID }}
-    TG_TOKEN: ${{ inputs.TG_TOKEN }}
   steps:
 
     - name: 🗑️ Clean-up
