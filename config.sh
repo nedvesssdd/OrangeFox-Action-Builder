@@ -13,6 +13,10 @@ blu=$(tput setaf 4)             #  blue
 cya=$(tput setaf 6)             #  cyan
 txtrst=$(tput sgr0)             #  Reset
 
+msg() {
+    echo -e "\e[1;32m$*\e[0m"
+}
+
 timeStart() {
     DATELOG=$(date "+%H%M-%d%m%Y")
     BUILD_START=$(date +"%s")
