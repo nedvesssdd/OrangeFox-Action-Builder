@@ -24,3 +24,5 @@ jobs:
         DEVICE_PATH: "device/vivo/1938"
         DEVICE_NAME: "1938"
         BUILD_TARGET: "recovery"
+        TG_CHAT_ID: "${{ secrets.TG_CHAT_ID }}"
+        TG_TOKEN: "${{ secrets.TG_TOKEN }}"

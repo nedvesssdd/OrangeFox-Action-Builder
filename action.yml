@@ -62,11 +62,11 @@ inputs:
   TG_CHAT_ID:
     description: 'Telegram Chat ID'
     required: false
-    default: '${{ secrets.TG_CHAT_ID }}'
+    default: ''
   TG_TOKEN:
     description: 'Telegram Bot Token'
     required: false
-    default: '${{ secrets.TG_TOKEN }}'
+    default: ''
 
 runs:
   using: 'composite'
@@ -90,6 +90,9 @@ runs:
 
     - name: 🎡 Set-up Manifest Sync
       shell: bash
+      env:
+        TG_CHAT_ID: ${{ inputs.TG_CHAT_ID }}
+        TG_TOKEN: ${{ inputs.TG_TOKEN }}
       run: |
         source config.sh
         telegram_message() {
@@ -120,6 +123,9 @@ runs:
 
     - name: 🦊 Building OrangeFox
       shell: bash
+      env:
+        TG_CHAT_ID: ${{ inputs.TG_CHAT_ID }}
+        TG_TOKEN: ${{ inputs.TG_TOKEN }}
       run: |
         source config.sh
         timeStart
