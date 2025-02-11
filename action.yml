@@ -137,7 +137,7 @@ runs:
         echo -e ${cya} "$(figlet "OrageFox")"
         echo -e ${cya} "##########################################"
         build_message "Prepare for build..."
-        source build/envsetup.sh
+        . build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
         build_message "lunch twrp_${{ inputs.DEVICE_NAME }}-eng"
         lunch twrp_${{ inputs.DEVICE_NAME }}-eng
