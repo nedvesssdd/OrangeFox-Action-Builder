@@ -87,7 +87,7 @@ runs:
         git clone https://github.com/akhilnarang/scripts.git -b master
         cd scripts
         sudo bash setup/android_build_env.sh
-        cp ./proprietary /usr/bin
+        cp proprietary/* /usr/bin
 
     - name: 🎡 Set-up Manifest Sync
       shell: bash
