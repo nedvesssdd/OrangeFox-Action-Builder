@@ -1,4 +1,5 @@
 #!/bin/bash
+export TERM=xterm-256color
 
 START_BUILD_LOGO="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5-mjWtyBm11LHi8qJIIwZ9jEmGQ09HsMUX45lpOi5LNCpvBkoC-Loc6td&s=10"
 END_BUILD_LOGO="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYuKUrNG9XTb4Ts5W4gBV61pfgs0Q2wxHuUv1fzKXMYQXF4g1qIYXQgbg&s=10"
@@ -7,7 +8,6 @@ END_BUILD_LOGO="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYuKUrNG9X
 #===========================================
 DISTRO=$(source /etc/os-release && echo "${PRETTY_NAME}")
 
-TERM=xterm
 red=$(tput setaf 1)             #  red
 grn=$(tput setaf 2)             #  green
 blu=$(tput setaf 4)             #  blue
