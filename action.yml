@@ -120,6 +120,8 @@ runs:
       env:
         TG_CHAT_ID: ${{ inputs.TG_CHAT_ID }}
         TG_TOKEN: ${{ inputs.TG_TOKEN }}
+        FOX_BRANCH: ${{ inputs.FOX_SYNC_BRANCH }}
+        DEVICE: ${{ inputs.DEVICE_NAME }}
       run: |
         source config.sh
         timeStart
@@ -128,7 +130,7 @@ runs:
         BUILDLOG="${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/build.log"
         build_message "Prepare for build..."
         set +e
-        . build/envsetup.sh
+        source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
         set -e
         build_message "lunch twrp_${{ inputs.DEVICE_NAME }}-eng"

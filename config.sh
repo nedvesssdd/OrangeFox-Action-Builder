@@ -324,7 +324,7 @@ progress() {
 
 build_message() {
 	if [ "$CI_MESSAGE_ID" = "" ]; then
-CI_MESSAGE_ID=$(tg_send_message --chat_id "$TG_CHAT_ID" --text "<b>=== 🦊 OrangeFox Recovery CI ===</b>
+CI_MESSAGE_ID=$(tg_send_message --chat_id "$TG_CHAT_ID" --text "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
 <b>🖥 Branch:</b> ${FOX_BRANCH}
 <b>📱 Device:</b> ${DEVICE}
 <b>📟 Job:</b> $(nproc --all) Paralel processing
@@ -336,7 +336,7 @@ CI_MESSAGE_ID=$(tg_send_message --chat_id "$TG_CHAT_ID" --text "<b>=== 🦊 Oran
 
 <b>⚙️ Status:</b> ${1}" --parse_mode "html" | jq .result.message_id)
 	else
-tg_edit_message_text --chat_id "$TG_CHAT_ID" --message_id "$CI_MESSAGE_ID" --text "<b>=== 🦊 OrangeFox Recovery CI ===</b>
+tg_edit_message_text --chat_id "$TG_CHAT_ID" --message_id "$CI_MESSAGE_ID" --text "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
 <b>🖥 Branch:</b> ${FOX_BRANCH}
 <b>📱 Device:</b> ${DEVICE}
 <b>📟 Job:</b> $(nproc --all) Paralel processing
