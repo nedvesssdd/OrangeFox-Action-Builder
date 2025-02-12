@@ -138,7 +138,6 @@ runs:
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
         BUILDLOG="${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/build.log"
-        ANU=$(ls ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/device)
         DEVICE=$(grep "PRODUCT_BRAND :=" ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/${{ inputs.DEVICE_PATH }}/twrp_*.mk -m 1 | cut -d = -f 2)
         set -e
         build_message "lunch twrp_${{ inputs.DEVICE_NAME }}-eng"
@@ -157,16 +156,55 @@ runs:
         # echo "BUILD_DATE=$(TZ=Asia/Jakarta date +%Y%m%d)" >> $GITHUB_ENV
         # cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}
 
-    # - name: 📤 Upload to Release
-      # uses: softprops/action-gh-release@v2
-      # with:
-        # files: |
-          # OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.img
-          # OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip
-        # name: OrangeFox Recovery for ${{ inputs.DEVICE_NAME }} // ${{ env.BUILD_DATE }}
-        # tag_name: ${{ github.run_id }}
-        # body: |
-          # ## OrangeFox Recovery Build - Unofficial
-          # Build: fox_${{ inputs.FOX_SYNC_BRANCH }}
-          # Device: [Device Tree/Branch](${{ inputs.DEVICE_TREE }}/tree/${{ inputs.DEVICE_TREE_BRANCH }})
-          # Commit: Most recent [commit](${{ inputs.DEVICE_TREE }}/commit/${{ env.COMMIT_ID }}) during building.
+    - name: 📤 Upload OrangeFox
+      shell: bash
+      env:
+        TG_CHAT_ID: ${{ inputs.TG_CHAT_ID }}
+        TG_TOKEN: ${{ inputs.TG_TOKEN }}
+        FOX_BRANCH: ${{ inputs.FOX_SYNC_BRANCH }}
+        CODENAME: ${{ inputs.DEVICE_NAME }}
+      run: |
+        set +e
+        source config.sh
+        echo -e ${cya} "============================"
+        echo -e ${cya} "Uploading the Build..."
+        echo -e ${cya} "============================"
+        TIMEOUT=20160
+        FILENAME=${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip
+        LINK1=$(grep 'Failed Upload To transfer' link.txt -m1 || true)
+        LINK2=$(grep 'Failed Upload To oshi.at' mirror.txt -m1 || true)
+        DL_LINK=$(cat link.txt | grep Download | cut -d\  -f3)
+        MIRROR_LINK=$(cat mirror.txt | grep Download | cut -d\  -f1)
+        DEVICE=$(grep "PRODUCT_BRAND :=" ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/${{ inputs.DEVICE_PATH }}/twrp_*.mk -m 1 | cut -d = -f 2)
+        set -e
+        transfer wet $FILENAME > link.txt  || { echo "Failed Upload To transfer" > link.txt }
+        curl -T $FILENAME https://oshi.at/${FILENAME}/${TIMEOUT} > mirror.txt || { echo "Failed Upload To oshi.at" > mirror.txt }
+        if [[ $LINK1 == *'Failed Upload To transfer'* && $LINK2 == *'Failed Upload To oshi.at'* ]]; then
+            echo "BUILD_DATE=$(TZ=Asia/Jakarta date +%Y%m%d)" >> $GITHUB_ENV
+            gh release create "OrangeFox Recovery for ${{ inputs.DEVICE_NAME }} // ${{ env.BUILD_DATE }}"
+            gh release upload ${FILENAME}
+        else 
+            echo -e \
+            "
+            <b>🦊 OrangeFox Recovery CI</b>
+            ==========================
+            <b>✅ Build Completed Successfully</b>
+            
+            <b>📱 Device:</b> "${DEVICE}"
+            <b>📝 CodeName:</b> "${CODENAME}"
+            <b>🖥 Branch Build :</b> "${FOX_BRANCH}"
+            <b>📂 Size :</b> "$(ls -lh $FILENAME | cut -d ' ' -f5)"
+            <b>⏰ Timer Build :</b> "$(grep "#### build completed successfully" $SYNC_PATH/build.log -m 1 | cut -d '(' -f 2)"
+            <b>📥 WeTransfer :</b> <a href=\"${DL_LINK}\">Download</a>
+            <b>📥 oshi.at :</b> <a href=\"${MIRROR_LINK}\">Download</a>
+            <b>📅 Date :</b> "$(date +%d\ %B\ %Y)"
+            <b>🕔 Time :</b> "$(date +"%T")"
+            
+            <b>📕 MD5 :-</b> <code>"$(md5sum $FILENAME | cut -d' ' -f1)"</code>
+            <b>📘 SHA1 :-</b> <code>"$(sha1sum $FILENAME | cut -d' ' -f1)"</code>
+            ==========================
+            " > tg.html
+            
+            TG_TEXT=$(< tg.html)
+            telegram_message "$TG_TEXT"
+        fi
