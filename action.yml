@@ -133,18 +133,16 @@ runs:
         source config.sh
         timeStart
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}
-        echo -e ${cya} "##########################################"
-        echo -e ${cya} "$(figlet "OrageFox")"
-        echo -e ${cya} "##########################################"
         build_message "Prepare for build..."
-        . build/envsetup.sh
+        export LC_ALL="C"
         export ALLOW_MISSING_DEPENDENCIES=true
+        source build/envsetup.sh
         build_message "lunch twrp_${{ inputs.DEVICE_NAME }}-eng"
         lunch twrp_${{ inputs.DEVICE_NAME }}-eng
         sleep 5
         build_message "🛠️ Building..."
         BUILDLOG="${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/build.log"
-        mkfifo -m 644 reading
+        mkfifo reading
         tee -a ${BUILDLOG} < reading & progress & mka adbd ${{ inputs.BUILD_TARGET }}image -j$(nproc --all) > reading
         retVal=$?
         timeEnd
