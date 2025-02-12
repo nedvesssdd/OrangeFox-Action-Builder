@@ -118,8 +118,6 @@ runs:
         if [[ ! -z "${{ inputs.DEVICE_TREE }}" ]]; then
             echo -e ${cya} "Clonning Device Tree..."
             git clone ${{ inputs.DEVICE_TREE }} -b ${{ inputs.DEVICE_TREE_BRANCH }} ${{ inputs.DEVICE_PATH }}
-            cd ${{ inputs.DEVICE_PATH }}
-            echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
         fi
 
     - name: 🦊 Building OrangeFox
@@ -130,19 +128,23 @@ runs:
         FOX_BRANCH: ${{ inputs.FOX_SYNC_BRANCH }}
         DEVICE: ${{ inputs.DEVICE_NAME }}
       run: |
+        set +e
         source config.sh
         timeStart
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}
+        echo -e ${cya} "##########################################"
+        echo -e ${cya} "$(figlet "OrageFox")"
+        echo -e ${cya} "##########################################"
         build_message "Prepare for build..."
-        export LC_ALL="C"
-        export ALLOW_MISSING_DEPENDENCIES=true
         source build/envsetup.sh
+        export ALLOW_MISSING_DEPENDENCIES=true
+        set -e
         build_message "lunch twrp_${{ inputs.DEVICE_NAME }}-eng"
         lunch twrp_${{ inputs.DEVICE_NAME }}-eng
         sleep 5
         build_message "🛠️ Building..."
         BUILDLOG="${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/build.log"
-        mkfifo reading
+        mkfifo -m 644 reading
         tee -a ${BUILDLOG} < reading & progress & mka adbd ${{ inputs.BUILD_TARGET }}image -j$(nproc --all) > reading
         retVal=$?
         timeEnd
