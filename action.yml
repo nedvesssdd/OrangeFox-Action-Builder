@@ -164,17 +164,15 @@ runs:
         FOX_BRANCH: ${{ inputs.FOX_SYNC_BRANCH }}
         CODENAME: ${{ inputs.DEVICE_NAME }}
       run: |
-        set +e
         source config.sh
         echo -e ${cya} "============================"
         echo -e ${cya} "Uploading the Build..."
         echo -e ${cya} "============================"
         TIMEOUT=20160
         FILENAME=${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip
+        DEVICE=$(grep "PRODUCT_BRAND :=" ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/${{ inputs.DEVICE_PATH }}/twrp_*.mk -m 1 | cut -d = -f 2)
+        transfer wet $FILENAME > link.txt  || { echo -e ${red} "Failed Upload To transfer" }
+        curl -T $FILENAME https://oshi.at/${FILENAME}/${TIMEOUT} > mirror.txt || { echo -e ${red} "Failed Upload To oshi.at" }
         DL_LINK=$(cat link.txt | grep Download | cut -d\  -f3)
         MIRROR_LINK=$(cat mirror.txt | grep Download | cut -d\  -f1)
-        DEVICE=$(grep "PRODUCT_BRAND :=" ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/${{ inputs.DEVICE_PATH }}/twrp_*.mk -m 1 | cut -d = -f 2)
-        set -e
-        transfer wet $FILENAME > link.txt  || { echo -e ${red}"Failed Upload To transfer" }
-        curl -T $FILENAME https://oshi.at/${FILENAME}/${TIMEOUT} > mirror.txt || { echo -e ${red} "Failed Upload To oshi.at" }
         post_build
