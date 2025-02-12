@@ -126,7 +126,6 @@ runs:
         TG_CHAT_ID: ${{ inputs.TG_CHAT_ID }}
         TG_TOKEN: ${{ inputs.TG_TOKEN }}
         FOX_BRANCH: ${{ inputs.FOX_SYNC_BRANCH }}
-        DEVICE: $(ls ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/device)
         CODENAME: ${{ inputs.DEVICE_NAME }}
       run: |
         set +e
@@ -136,15 +135,16 @@ runs:
         echo -e ${cya} "##########################################"
         echo -e ${cya} "$(figlet "OrageFox")"
         echo -e ${cya} "##########################################"
-        build_message "Prepare for build..."
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
+        BUILDLOG="${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/build.log"
+        ANU=$(ls ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/device)
+        DEVICE=$(echo ${ANU})
         set -e
         build_message "lunch twrp_${{ inputs.DEVICE_NAME }}-eng"
         lunch twrp_${{ inputs.DEVICE_NAME }}-eng
         sleep 5
         build_message "🛠️ Building..."
-        BUILDLOG="${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/build.log"
         mkfifo -m 644 reading
         tee -a ${BUILDLOG} < reading & progress & mka adbd ${{ inputs.BUILD_TARGET }}image -j$(nproc --all) > reading
         retVal=$?
