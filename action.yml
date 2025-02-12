@@ -126,7 +126,8 @@ runs:
         TG_CHAT_ID: ${{ inputs.TG_CHAT_ID }}
         TG_TOKEN: ${{ inputs.TG_TOKEN }}
         FOX_BRANCH: ${{ inputs.FOX_SYNC_BRANCH }}
-        DEVICE: ${{ inputs.DEVICE_NAME }}
+        DEVICE: $(ls ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/device)
+        CODENAME: ${{ inputs.DEVICE_NAME }}
       run: |
         set +e
         source config.sh

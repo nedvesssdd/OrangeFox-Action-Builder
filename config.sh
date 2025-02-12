@@ -90,246 +90,16 @@ tg_send_document() {
     telegram_main sendDocument POST_FILE "$@"
 }
 
-progress() {
-    echo -e ${blu} "BOTLOG: Build tracker process is running..."
-    sleep 5;
-
-    while [ 1 ]; do
-        if [[ ${retVal} -ne 0 ]]; then
-            exit ${retVal}
-        fi
-
-        # Get latest percentage
-        PERCENTAGE=$(cat $BUILDLOG | tail -n 1 | awk '{ print $2 }')
-        NUMBER=$(echo ${PERCENTAGE} | sed 's/[^0-9]*//g')
-
-        # Report percentage to the $TG_CHAT_ID
-        if [[ "${NUMBER}" != "" ]]; then
-            if [[ "${NUMBER}" -le  "99" ]]; then
-                if [[ "${NUMBER}" != "${NUMBER_OLD}" ]] && [[ "$NUMBER" != "" ]] && ! cat $BUILDLOG | tail  -n 1 | grep "glob" > /dev/null && ! cat $BUILDLOG | tail  -n 1 | grep "including" > /dev/null && ! cat $BUILDLOG | tail  -n 1 | grep "soong" > /dev/null && ! cat $BUILDLOG | tail  -n 1 | grep "finishing" > /dev/null; then
-                echo -e "BOTLOG: Percentage changed to ${NUMBER}%"
-                    if [[ "$NUMBER" == "1" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▱▱▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "2" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▱▱▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "3" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▱▱▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "4" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▱▱▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "5" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▱▱▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "6" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▱▱▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "7" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▱▱▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "8" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▱▱▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "9" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▱▱▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "10" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "11" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "12" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "13" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "14" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "15" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "16" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "17" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "18" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "19" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "20" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "21" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "22" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "23" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "24" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "25" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "26" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "27" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "28" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "29" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "30" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "31" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "32" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "33" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "34" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "35" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "36" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "37" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "38" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "39" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "40" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "41" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "42" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "43" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "44" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "45" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "46" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "47" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "48" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "49" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "50" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "51" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "52" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "53" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "54" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "55" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "56" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "57" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "58" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "59" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "60" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "61" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "62" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "63" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "64" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "65" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "66" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "67" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "68" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "69" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "70" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "71" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "72" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "73" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "74" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "75" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "76" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "77" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "78" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "79" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "80" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "81" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "82" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "83" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "84" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "85" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "86" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "87" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "88" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "89" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "90" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "91" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "92" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "93" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "94" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "95" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "96" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "97" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "98" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨" > /dev/null
-                    elif [[ "$NUMBER" == "99" ]]; then
-                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▰」${NUMBER}% 💨" > /dev/null
-                    fi
-                fi
-            NUMBER_OLD=${NUMBER}
-            fi
-            if [[ "$NUMBER" -eq "99" ]] && [[ "$NUMBER" != "" ]] && ! cat $BUILDLOG | tail  -n 1 | grep "glob" > /dev/null && ! cat $BUILDLOG | tail  -n 1 | grep "including" > /dev/null && ! cat $BUILDLOG | tail  -n 1 | grep "soong" > /dev/null && ! cat $BUILDLOG | tail -n 1 | grep "finishing" > /dev/null; then
-                echo "BOTLOG: Build tracker process ended"
-                break
-            fi
-        fi
-
-        sleep 5
-    done
-    return 0
-}
-
 build_message() {
 	if [ "$CI_MESSAGE_ID" = "" ]; then
 CI_MESSAGE_ID=$(tg_send_message --chat_id "$TG_CHAT_ID" --text "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
 <b>🖥 Branch:</b> ${FOX_BRANCH}
 <b>📱 Device:</b> ${DEVICE}
+<b>📝 CodeName:</b> ${CODENAME}
 <b>📟 Job:</b> $(nproc --all) Paralel processing
-<b>🗃 Penyimpanan:</b> 5TB
-<b>📈 Digunakan:</b> 54.32GB
-<b>📉 Tersisa:</b> 4.94568TB
+<b>🗃 Storage:</b> 5TB
+<b>📈 Used:</b> 54.32GB
+<b>📉 Remaining:</b> 4.94568TB
 <b>⏳ Running on:</b> $DISTRO
 <b>📅 Started at:</b> $DATE
 
@@ -338,10 +108,11 @@ CI_MESSAGE_ID=$(tg_send_message --chat_id "$TG_CHAT_ID" --text "<b>=== 🦊 Oran
 tg_edit_message_text --chat_id "$TG_CHAT_ID" --message_id "$CI_MESSAGE_ID" --text "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
 <b>🖥 Branch:</b> ${FOX_BRANCH}
 <b>📱 Device:</b> ${DEVICE}
+<b>📝 CodeName:</b> ${CODENAME}
 <b>📟 Job:</b> $(nproc --all) Paralel processing
-<b>🗃 Penyimpanan:</b> 5TB
-<b>📈 Digunakan:</b> 54.32GB
-<b>📉 Tersisa:</b> 4.94568TB
+<b>🗃 Storage:</b> 5TB
+<b>📈 Used:</b> 54.32GB
+<b>📉 Remaining:</b> 4.94568TB
 <b>⏳ Running on:</b> $DISTRO
 <b>📅 Started at:</b> $DATE
 
@@ -349,14 +120,238 @@ tg_edit_message_text --chat_id "$TG_CHAT_ID" --message_id "$CI_MESSAGE_ID" --tex
 	fi
 }
 
+progress() {
+    echo -e ${blu} "BOTLOG: Build tracker process is running..."
+    sleep 5;
+    while [ 1 ]; do
+        if [[ ${retVal} -ne 0 ]]; then
+            exit ${retVal}
+        fi
+        # Get latest percentage
+        PERCENTAGE=$(cat $BUILDLOG | tail -n 1 | awk '{ print $2 }')
+        NUMBER=$(echo ${PERCENTAGE} | sed 's/[^0-9]*//g')
+        # Report percentage to the $TG_CHAT_ID
+        if [[ "${NUMBER}" != "" ]]; then
+            if [[ "${NUMBER}" -le  "99" ]]; then
+                if [[ "${NUMBER}" != "${NUMBER_OLD}" ]] && [[ "$NUMBER" != "" ]] && ! cat $BUILDLOG | tail  -n 1 | grep "glob" > /dev/null && ! cat $BUILDLOG | tail  -n 1 | grep "including" > /dev/null && ! cat $BUILDLOG | tail  -n 1 | grep "soong" > /dev/null && ! cat $BUILDLOG | tail  -n 1 | grep "finishing" > /dev/null; then
+                echo -e ${blu} "BOTLOG: Percentage changed to ${NUMBER}%"
+                    if [[ "$NUMBER" == "1" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▱▱▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "2" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▱▱▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "3" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▱▱▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "4" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▱▱▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "5" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▱▱▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "6" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▱▱▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "7" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▱▱▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "8" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▱▱▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "9" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▱▱▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "10" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "11" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "12" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "13" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "14" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "15" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "16" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "17" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "18" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "19" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▱▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "20" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "21" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "22" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "23" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "24" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "25" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "26" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "27" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "28" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "29" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▱▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "30" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "31" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "32" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "33" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "34" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "35" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "36" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "37" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "38" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "39" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▱▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "40" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "41" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "42" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "43" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "44" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "45" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "46" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "47" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "48" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "49" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▱▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "50" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "51" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "52" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "53" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "54" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "55" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "56" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "57" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "58" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "59" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▱▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "60" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "61" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "62" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "63" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "64" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "65" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "66" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "67" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "68" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "69" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▱▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "70" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "71" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "72" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "73" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "74" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "75" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "76" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "77" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "78" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "79" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▱▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "80" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "81" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "82" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "83" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "84" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "85" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "86" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "87" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "88" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "89" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "90" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "91" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "92" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "93" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "94" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "95" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "96" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "97" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "98" ]]; then
+                       build_message "🛠️ Building... 🚀「▰▰▰▰▰▰▰▰▰▱」${NUMBER}% 💨"
+                    else if [[ "$NUMBER" == "99" ]]; then
+                       build_message "🛠️ Building..." "🚀「▰▰▰▰▰▰▰▰▰▰」${NUMBER}% 💨"
+                    fi
+                fi
+            NUMBER_OLD=${NUMBER}
+            fi
+            if [[ "$NUMBER" -eq "99" ]] && [[ "$NUMBER" != "" ]] && ! cat $BUILDLOG | tail  -n 1 | grep "glob" > /dev/null && ! cat $BUILDLOG | tail  -n 1 | grep "including" > /dev/null && ! cat $BUILDLOG | tail  -n 1 | grep "soong" > /dev/null && ! cat $BUILDLOG | tail -n 1 | grep "finishing" > /dev/null; then
+                echo -e ${grn} "BOTLOG: Build tracker process ended"
+                break
+            fi
+        fi
+        sleep 5
+    done
+    return 0
+}
+
 statusBuild() {
     if [[ $retVal -eq 8 ]]; then
-        build_message "Build Aborted 😡 with Code Exit ${retVal}.
-
-Total time elapsed: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
-        tg_send_message --chat_id "$TG_CHAT_ID_SECOND" --text "Build Aborted 💔 with Code Exit ${retVal}.
-Sudah kubilang yang teliti 😡"
-        echo "Build Aborted"
+        build_message "Build Aborted 😡 with Code Exit ${retVal}.\n\nTotal time elapsed: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
+        tg_send_message --chat_id "$TG_CHAT_ID_SECOND" --text "Build Aborted 💔 with Code Exit ${retVal}."
+        echo -e ${red} "Build Aborted"
         tg_send_document --chat_id "$TG_CHAT_ID" --document "$BUILDLOG" --reply_to_message_id "$CI_MESSAGE_ID"
         LOGTRIM="$CDIR/out/log_trimmed.log"
         sed -n '/FAILED:/,//p' $BUILDLOG &> $LOGTRIM
@@ -364,11 +359,9 @@ Sudah kubilang yang teliti 😡"
         exit $retVal
     fi
     if [[ $retVal -eq 141 ]]; then
-        build_message "Build Aborted 👎 with Code Exit ${retVal}, See log.
-
-Total time elapsed: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
+        build_message "Build Aborted 👎 with Code Exit ${retVal}, See log.\n\nTotal time elapsed: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
         tg_send_message --chat_id "$TG_CHAT_ID_SECOND" --text "Build Aborted ❌ with Code Exit ${retVal}."
-        echo "Build Aborted"
+        echo -e ${red} "Build Aborted"
         tg_send_document --chat_id "$TG_CHAT_ID" --document "$BUILDLOG" --reply_to_message_id "$CI_MESSAGE_ID"
         LOGTRIM="$CDIR/out/log_trimmed.log"
         sed -n '/FAILED:/,//p' $BUILDLOG &> $LOGTRIM
@@ -376,11 +369,9 @@ Total time elapsed: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
         exit $retVal
     fi
     if [[ $retVal -ne 0 ]]; then
-        build_message "Build Error ❌ with Code Exit ${retVal}, See log.
-
-Total time elapsed: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
+        build_message "Build Error ❌ with Code Exit ${retVal}, See log.\n\nTotal time elapsed: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
         tg_send_message --chat_id "$TG_CHAT_ID_SECOND" --text "Build Error ❌ with Code Exit ${retVal}."
-        echo "Build Error"
+        echo -e ${red} "Build Error"
         tg_send_document --chat_id "$TG_CHAT_ID" --document "$BUILDLOG" --reply_to_message_id "$CI_MESSAGE_ID"
         LOGTRIM="$CDIR/out/log_trimmed.log"
         sed -n '/FAILED:/,//p' $BUILDLOG &> $LOGTRIM
