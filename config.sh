@@ -122,11 +122,29 @@ tg_edit_message_text --chat_id "$TG_CHAT_ID" --message_id "$CI_MESSAGE_ID" --tex
 	fi
 }
 
-telegram_message() {
-	curl -v "https://api.telegram.org/bot""$TG_TOKEN""/sendPhoto?chat_id=""$TG_CHAT_ID""$ARGS_EXTRA" -H 'Content-Type: multipart/form-data' \
+post_build() {
+    curl -v "https://api.telegram.org/bot""$TG_TOKEN""/sendPhoto?chat_id=""$TG_CHAT_ID""$ARGS_EXTRA" -H 'Content-Type: multipart/form-data' \
 	--form photo="$LOGO" \
 	-F "parse_mode=html" \
-	-F caption="$1"
+	-F caption="
+<b>🦊 OrangeFox Recovery CI</b>
+==========================
+<b>✅ Build Completed Successfully</b>
+
+<b>📱 Device:</b> "${DEVICE}"
+<b>📝 CodeName:</b> "${CODENAME}"
+<b>🖥 Branch Build :</b> "${FOX_BRANCH}"
+<b>📂 Size :</b> "$(ls -lh $FILENAME | cut -d ' ' -f5)"
+<b>⏰ Timer Build :</b> "$(grep "#### build completed successfully" $SYNC_PATH/build.log -m 1 | cut -d '(' -f 2)"
+<b>📥 WeTransfer :</b> <a href=\"${DL_LINK}\">Download</a>
+<b>📥 oshi.at :</b> <a href=\"${MIRROR_LINK}\">Download</a>
+<b>📅 Date :</b> "$(date +%d\ %B\ %Y)"
+<b>🕔 Time :</b> "$(date +"%T")"
+
+<b>📕 MD5 :-</b> <code>"$(md5sum $FILENAME | cut -d' ' -f1)"</code>
+<b>📘 SHA1 :-</b> <code>"$(sha1sum $FILENAME | cut -d' ' -f1)"</code>
+==========================
+"
 }
 
 progress() {
