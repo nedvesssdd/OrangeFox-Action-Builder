@@ -31,9 +31,9 @@ telegram_curl() {
     local HTTP_REQUEST=${1}
     shift
     if [[ "${HTTP_REQUEST}" != "POST_FILE" ]]; then
-        curl -X "${HTTP_REQUEST}" -H "Content-Type:multipart/form-data" "https://api.telegram.org/bot$TG_TOKEN/$ACTION" "$@" | jq .
+        curl -s -X "${HTTP_REQUEST}" "https://api.telegram.org/bot$TG_TOKEN/$ACTION" "$@" | jq .
     else
-        curl -X POST -H "Content-Type:multipart/form-data" "https://api.telegram.org/bot$TG_TOKEN/$ACTION" "$@" | jq .
+        curl -s -X POST "https://api.telegram.org/bot$TG_TOKEN/$ACTION" "$@" | jq .
     fi
 }
 
