@@ -2,6 +2,7 @@
 export TERM=xterm-256color
 
 LOGO="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYuKUrNG9XTb4Ts5W4gBV61pfgs0Q2wxHuUv1fzKXMYQXF4g1qIYXQgbg&s=10"
+LOGO_BUILD="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6jDWya4wSjAttDfs5svauYOgq8p2fCuVwd89TZB2P0c_RT5qSMPxuIEo&s=10"
 
 # Don't change this line
 #===========================================
@@ -90,6 +91,10 @@ tg_send_document() {
     telegram_main sendDocument POST_FILE "$@"
 }
 
+tg_send_photo() {
+    telegram_main sendPhoto POST "$@"
+}
+
 build_message() {
 	if [ "$CI_MESSAGE_ID" = "" ]; then
 CI_MESSAGE_ID=$(tg_send_message --chat_id "$TG_CHAT_ID" --text "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
@@ -120,6 +125,26 @@ tg_edit_message_text --chat_id "$TG_CHAT_ID" --message_id "$CI_MESSAGE_ID" --tex
 <b>⚙️ Status :</b> <code>${1}</code>
 <code>${2}</code>" --parse_mode "html"
 	fi
+}
+
+post_message() {
+    tg_send_photo --chat_id "${TG_CHAT_ID}" --photo "${LOGO}" --parse_mode "html" --text "<b>🦊 OrangeFox Recovery Builder</b>
+==========================
+<b>✅ Build Completed Successfully</b>
+
+<b>📱 Device :</b> "${{ env.DEVICE }}"
+<b>📝 CodeName :</b> "${{ env.CODENAME }}"
+<b>🖥 Branch Build :</b> "${{ env.FOX_BRANCH }}"
+<b>👩‍💻 Top Commit :</b> "${{ env.DT_COMMIT }}"
+<b>📂 Size :</b> "${{ env.ORF_SIZE }}"
+<b>⏰ Timer Build :</b> "$(grep "#### build completed successfully" $BUILDLOG -m 1 | cut -d '(' -f 2)"
+<b>📥 Download :</b> <a href=\"https://github.com/${{ github.actor }}/${{ github.event.repository.name }}/releases/tag/${{ github.run_id }}\">Download</a>
+<b>📅 Date :</b> "$(TZ=Asia/Jakarta date +%d\ %B\ %Y)"
+<b>🕔 Time :</b> "$(TZ=Asia/Jakarta date +"%T")"
+
+<b>📕 MD5 :-</b> <code>"${{ env.ORF_MD5 }}"</code>
+<b>📘 SHA1 :-</b> <code>"${{ env.ORF_SHA1 }}"</code>
+=========================="
 }
 
 progress() {
@@ -386,5 +411,5 @@ Total time elapsed: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
         tg_send_document --chat_id "$TG_CHAT_ID" --document "$LOGTRIM" --reply_to_message_id "$CI_MESSAGE_ID"
         exit $retVal
     fi
-    build_message "Build success ✅" "🚀 「▰▰▱▱▱▱▱▱▱▱」 100% 💨"
+    build_message "Build success ✅" "🚀 「▰▰▰▰▰▰▰▰▰▰」 100% 💨"
 }
