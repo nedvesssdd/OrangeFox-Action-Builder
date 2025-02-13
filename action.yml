@@ -87,8 +87,6 @@ runs:
         sudo apt install aria2 figlet -y
         git clone https://github.com/akhilnarang/scripts.git -b master .sc
         sudo bash .sc/setup/android_build_env.sh
-        TZ=Asia/Jakarta
-        sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && sudo echo $TZ > /etc/timezone
 
     - name: 🎡 Set-up Manifest Sync
       shell: bash
