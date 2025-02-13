@@ -174,17 +174,17 @@ runs:
         files: |
           OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip
           OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip.md5
-        name: 🦊 OrangeFox Recovery for ${DEVICE} (${CODENAME}) // ${{ env.BUILD_DATE }}
+        name: 🦊 OrangeFox Recovery for ${{ env.DEVICE }} (${{ env.CODENAME }}) // ${{ env.BUILD_DATE }}
         tag_name: ${{ github.run_id }}
         body: |
           ## OrangeFox Recovery Build - Unofficial
-          🖥OrangeFox-Branch: ${FOX_BRANCH}
-          📱Device: ${DEVICE}
-          📝CodeName: ${CODENAME}
-          📂Size: ${ORF_SIZE}
-          📕MD5: ${ORF_MD5}
-          📘SHA1: ${ORF_SHA1}
-          👩‍💻Commit: ${DT_COMMIT}
+          🖥OrangeFox-Branch: ${{ env.FOX_BRANCH }}
+          📱Device: ${{ env.DEVICE }}
+          📝CodeName: ${{ env.CODENAME }}
+          📂Size: ${{ env.ORF_SIZE }}
+          📕MD5: ${{ env.ORF_MD5 }}
+          📘SHA1: ${{ env.ORF_SHA1 }}
+          👩‍💻Commit: ${{ env.DT_COMMIT }}
       env:
         FOX_BRANCH: ${{ inputs.FOX_SYNC_BRANCH }}
         CODENAME: ${{ inputs.DEVICE_NAME }}
