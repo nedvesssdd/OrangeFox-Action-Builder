@@ -150,10 +150,10 @@ runs:
         timeEnd
         statusBuild
 
-    - name: Set Release Properties
+    - name: 🥢 Set Release Properties
       shell: bash
       run: |
-        EV1=$(TZ=Asia/Jakarta date +%Y%m%d)
+        EV1=$(TZ=Asia/Jakarta date +%Y-%m-%d)
         EV2=$(grep "PRODUCT_MODEL :=" ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/${{ inputs.DEVICE_PATH }}/twrp_*.mk -m 1 | cut -d = -f 2)
         EV3=$(ls -lh ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip | cut -d ' ' -f5)
         EV4=$(md5sum ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip | cut -d ' ' -f1)
@@ -165,6 +165,12 @@ runs:
         echo "ORF_MD5=${EV4}" >> $GITHUB_ENV
         echo "ORF_SHA1=${EV5}" >> $GITHUB_ENV
         echo "DT_COMMIT=${EV6}" >> $GITHUB_ENV
+
+    - name: 🛰️ Post Build
+      shell: bash
+      run: |
+        source config.sh
+        post_build
 
     - name: 📤 Upload to Release
       uses: softprops/action-gh-release@v2

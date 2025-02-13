@@ -14,13 +14,13 @@ cya=$(tput setaf 6)             #  cyan
 txtrst=$(tput sgr0)             #  Reset
 
 timeStart() {
-    DATELOG=$(date "+%H%M-%d%m%Y")
-    BUILD_START=$(date +"%s")
-    DATE=$(date)
+    DATELOG=$(TZ=Asia/Jakarta date "+%H%M-%d%m%Y")
+    BUILD_START=$(TZ=Asia/Jakarta date +"%s")
+    DATE=$(TZ=Asia/Jakarta date)
 }
 
 timeEnd() {
-	BUILD_END=$(date +"%s")
+	BUILD_END=$(TZ=Asia/Jakarta date +"%s")
 	DIFF=$(($BUILD_END - $BUILD_START))
 }
 
@@ -117,7 +117,7 @@ tg_edit_message_text --chat_id "$TG_CHAT_ID" --message_id "$CI_MESSAGE_ID" --tex
 <b>⏳ Running on:</b> $DISTRO
 <b>📅 Started at:</b> $DATE
 
-<b>⚙️ Status</b> <code>${1}</code>
+<b>⚙️ Status:</b> <code>${1}</code>
 <code>${2}</code>" --parse_mode "html"
 	fi
 }
@@ -127,22 +127,22 @@ post_build() {
 	--form photo="$LOGO" \
 	-F "parse_mode=html" \
 	-F caption="
-<b>🦊 OrangeFox Recovery CI</b>
+<b>🦊 OrangeFox Recovery Builder</b>
 ==========================
 <b>✅ Build Completed Successfully</b>
 
-<b>📱 Device:</b> "${DEVICE}"
-<b>📝 CodeName:</b> "${CODENAME}"
-<b>🖥 Branch Build :</b> "${FOX_BRANCH}"
-<b>📂 Size :</b> "$(ls -lh $FILENAME | cut -d ' ' -f5)"
-<b>⏰ Timer Build :</b> "$(grep "#### build completed successfully" $SYNC_PATH/build.log -m 1 | cut -d '(' -f 2)"
-<b>📥 WeTransfer :</b> <a href=\"${DL_LINK}\">Download</a>
-<b>📥 oshi.at :</b> <a href=\"${MIRROR_LINK}\">Download</a>
-<b>📅 Date :</b> "$(date +%d\ %B\ %Y)"
-<b>🕔 Time :</b> "$(date +"%T")"
+<b>📱 Device:</b> "${{ env.DEVICE }}"
+<b>📝 CodeName:</b> "${{ env.CODENAME }}"
+<b>🖥 Branch Build :</b> "${{ env.FOX_BRANCH }}"
+<b>👩‍💻 Top Commit :</b> "${{ env.DT_COMMIT }}"
+<b>📂 Size :</b> "${{ env.ORF_SIZE }}"
+<b>⏰ Timer Build :</b> "$(grep "#### build completed successfully" $BUILDLOG -m 1 | cut -d '(' -f 2)"
+<b>📥 Download :</b> <a href=\"https://github.com/${{ github.actor }}/${{ github.event.repository.name }}/releases/tag/${{ github.run_id }}\">Download</a>
+<b>📅 Date :</b> "$(TZ=Asia/Jakarta date +%d\ %B\ %Y)"
+<b>🕔 Time :</b> "$(TZ=Asia/Jakarta date +"%T")"
 
-<b>📕 MD5 :-</b> <code>"$(md5sum $FILENAME | cut -d' ' -f1)"</code>
-<b>📘 SHA1 :-</b> <code>"$(sha1sum $FILENAME | cut -d' ' -f1)"</code>
+<b>📕 MD5 :-</b> <code>"${{ env.ORF_MD5 }}"</code>
+<b>📘 SHA1 :-</b> <code>"${{ env.ORF_SHA1 }}"</code>
 ==========================
 "
 }
@@ -411,5 +411,5 @@ Total time elapsed: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
         tg_send_document --chat_id "$TG_CHAT_ID" --document "$LOGTRIM" --reply_to_message_id "$CI_MESSAGE_ID"
         exit $retVal
     fi
-    build_message "Build success ✅"
+    build_message "Build success ✅" "🚀 「▰▰▱▱▱▱▱▱▱▱」 100% 💨"
 }
