@@ -87,6 +87,8 @@ runs:
         sudo apt install aria2 figlet -y
         git clone https://github.com/akhilnarang/scripts.git -b master .sc
         sudo bash .sc/setup/android_build_env.sh
+        TZ=Asia/Jakarta
+        sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && sudo echo $TZ > /etc/timezone
 
     - name: 🎡 Set-up Manifest Sync
       shell: bash
@@ -137,7 +139,6 @@ runs:
         echo -e ${cya} "##########################################"
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
-        export TZ="Asia/Jakarta"
         BUILDLOG="${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/build.log"
         DEVICE=$(grep "PRODUCT_MODEL :=" ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/${{ inputs.DEVICE_PATH }}/twrp_*.mk -m 1 | cut -d = -f 2)
         set -e
@@ -154,18 +155,25 @@ runs:
     - name: Set Release Properties
       shell: bash
       run: |
-        echo "BUILD_DATE=$(TZ=Asia/Jakarta date +%Y%m%d)" >> $GITHUB_ENV
-        echo "DEVICE=$(grep "PRODUCT_MODEL :=" ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/${{ inputs.DEVICE_PATH }}/twrp_*.mk -m 1 | cut -d = -f 2)" >> $GITHUB_ENV
-        echo "ORF_SIZE=$(ls -lh ${GITHUB_WORKSPACE}OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip | cut -d ' ' -f5)" >> $GITHUB_ENV
-        echo "ORF_MD5=$(md5sum ${GITHUB_WORKSPACE}OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip | cut -d ' ' -f1)" >> $GITHUB_ENV
-        echo "ORF_SHA1=$(sha1sum ${GITHUB_WORKSPACE}OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip | cut -d ' ' -f1)" >> $GITHUB_ENV
-        echo "DT_COMMIT=$(cd ${GITHUB_WORKSPACE}OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/${{ inputs.DEVICE_PATH }} && git log --pretty=format:'%s' -1)" >> $GITHUB_ENV
+        EV1=$(TZ=Asia/Jakarta date +%Y%m%d)
+        EV2=$(grep "PRODUCT_MODEL :=" ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/${{ inputs.DEVICE_PATH }}/twrp_*.mk -m 1 | cut -d = -f 2)
+        EV3=$(ls -lh ${GITHUB_WORKSPACE}OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip | cut -d ' ' -f5)
+        EV4=$(md5sum ${GITHUB_WORKSPACE}OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip | cut -d ' ' -f1)
+        EV5=$(sha1sum ${GITHUB_WORKSPACE}OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip | cut -d ' ' -f1)
+        EV6=$(cd ${GITHUB_WORKSPACE}OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/${{ inputs.DEVICE_PATH }} && git log --pretty=format:'%s' -1)
+        echo "BUILD_DATE=${EV1}" >> $GITHUB_ENV
+        echo "DEVICE=${EV2}" >> $GITHUB_ENV
+        echo "ORF_SIZE=${EV3}" >> $GITHUB_ENV
+        echo "ORF_MD5=${EV4}" >> $GITHUB_ENV
+        echo "ORF_SHA1=${EV5}" >> $GITHUB_ENV
+        echo "DT_COMMIT=${EV6}" >> $GITHUB_ENV
 
     - name: 📤 Upload to Release
       uses: softprops/action-gh-release@v2
       with:
         files: |
-          OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip
+          OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip
+          OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip.md5
         name: 🦊 OrangeFox Recovery for ${DEVICE} (${CODENAME}) // ${{ env.BUILD_DATE }}
         tag_name: ${{ github.run_id }}
         body: |
