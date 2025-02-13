@@ -137,8 +137,9 @@ runs:
         echo -e ${cya} "##########################################"
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
+        export TZ="Asia/Jakarta"
         BUILDLOG="${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/build.log"
-        DEVICE=$(grep "PRODUCT_BRAND :=" ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/${{ inputs.DEVICE_PATH }}/twrp_*.mk -m 1 | cut -d = -f 2)
+        DEVICE=$(grep "PRODUCT_MODEL :=" ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/${{ inputs.DEVICE_PATH }}/twrp_*.mk -m 1 | cut -d = -f 2)
         set -e
         build_message "lunch twrp_${{ inputs.DEVICE_NAME }}-eng"
         lunch twrp_${{ inputs.DEVICE_NAME }}-eng
@@ -150,28 +151,32 @@ runs:
         timeEnd
         statusBuild
 
-    # - name: 📝 Set Release Properties
-      # shell: bash
-      # run: |
-        # echo "BUILD_DATE=$(TZ=Asia/Jakarta date +%Y%m%d)" >> $GITHUB_ENV
-        # cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}
-
-    - name: 📤 Upload OrangeFox
+    - name: Set Release Properties
       shell: bash
+      run: |
+        echo "BUILD_DATE=$(TZ=Asia/Jakarta date +%Y%m%d)" >> $GITHUB_ENV
+        echo "DEVICE=$(grep "PRODUCT_MODEL :=" ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/${{ inputs.DEVICE_PATH }}/twrp_*.mk -m 1 | cut -d = -f 2)" >> $GITHUB_ENV
+        echo "ORF_SIZE=$(ls -lh ${GITHUB_WORKSPACE}OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip | cut -d ' ' -f5)" >> $GITHUB_ENV
+        echo "ORF_MD5=$(md5sum ${GITHUB_WORKSPACE}OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip | cut -d ' ' -f1)" >> $GITHUB_ENV
+        echo "ORF_SHA1=$(sha1sum ${GITHUB_WORKSPACE}OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip | cut -d ' ' -f1)" >> $GITHUB_ENV
+        echo "DT_COMMIT=$(cd ${GITHUB_WORKSPACE}OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/${{ inputs.DEVICE_PATH }} && git log --pretty=format:'%s' -1)" >> $GITHUB_ENV
+
+    - name: 📤 Upload to Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip
+        name: 🦊 OrangeFox Recovery for ${DEVICE} (${CODENAME}) // ${{ env.BUILD_DATE }}
+        tag_name: ${{ github.run_id }}
+        body: |
+          ## OrangeFox Recovery Build - Unofficial
+          🖥OrangeFox-Branch: ${FOX_BRANCH}
+          📱Device: ${DEVICE}
+          📝CodeName: ${CODENAME}
+          📂Size: ${ORF_SIZE}
+          📕MD5: ${ORF_MD5}
+          📘SHA1: ${ORF_SHA1}
+          👩‍💻Commit: ${DT_COMMIT}
       env:
-        TG_CHAT_ID: ${{ inputs.TG_CHAT_ID }}
-        TG_TOKEN: ${{ inputs.TG_TOKEN }}
         FOX_BRANCH: ${{ inputs.FOX_SYNC_BRANCH }}
         CODENAME: ${{ inputs.DEVICE_NAME }}
-      run: |
-        source config.sh
-        echo -e ${cya} "============================"
-        echo -e ${cya} "Uploading the Build..."
-        echo -e ${cya} "============================"
-        TIMEOUT=20160
-        FILENAME=${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip
-        DEVICE=$(grep "PRODUCT_BRAND :=" ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/${{ inputs.DEVICE_PATH }}/twrp_*.mk -m 1 | cut -d = -f 2)
-        transfer wet $FILENAME > link.txt  || { echo -e ${red} "Failed Upload To transfer" }
-        curl -T $FILENAME https://oshi.at/${FILENAME}/${TIMEOUT} > mirror.txt || { echo -e ${red} "Failed Upload To oshi.at" }
-        DL_LINK=$(cat link.txt | grep Download | cut -d \ -f3)
-        MIRROR_LINK=$(cat mirror.txt | grep Download | cut -d \ -f1)
