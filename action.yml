@@ -83,7 +83,6 @@ runs:
     - name: 🏢 Build Environment
       shell: bash
       run: |
-        sudo cp proprietary/* /usr/bin
         sudo apt install aria2 figlet -y
         git clone https://github.com/akhilnarang/scripts.git -b master .sc
         sudo bash .sc/setup/android_build_env.sh
