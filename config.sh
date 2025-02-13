@@ -32,8 +32,10 @@ telegram_curl() {
     shift
     if [[ "${HTTP_REQUEST}" != "POST_FILE" ]]; then
         curl -s -X "${HTTP_REQUEST}" "https://api.telegram.org/bot$TG_TOKEN/$ACTION" "$@" | jq .
+    else if [[ "${HTTP_REQUEST}" != "POST" ]]; then
+        curl -s -X "${HTTP_REQUEST}" "https://api.telegram.org/bot$TG_TOKEN/$ACTION" "$@" | jq .
     else
-        curl -s -X POST "https://api.telegram.org/bot$TG_TOKEN/$ACTION" "$@" | jq .
+        curl -s "https://api.telegram.org/bot$TG_TOKEN/$ACTION" "$@" | jq .
     fi
 }
 
@@ -87,6 +89,10 @@ tg_edit_message_text() {
     telegram_main editMessageText POST "$@"
 }
 
+tg_edit_message_media() {
+    telegram_main editMessageMedia POST "$@"
+}
+
 tg_send_document() {
     telegram_main sendDocument POST_FILE "$@"
 }
@@ -111,7 +117,7 @@ CI_MESSAGE_ID=$(tg_send_photo --chat_id "$TG_CHAT_ID" --photo "${LOGO_BUILD}" --
 <b>⚙️ Status:</b> ${1}
 ${2}" --parse_mode "html" | jq .result.message_id)
 	else
-tg_edit_message_text --chat_id "$TG_CHAT_ID" --message_id "$CI_MESSAGE_ID" --caption "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
+tg_edit_message_media --chat_id "$TG_CHAT_ID" --message_id "$CI_MESSAGE_ID" --caption "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
 <b>🖥 OrangeFox Branch :</b> ${FOX_BRANCH}
 <b>📱 Device :</b> ${DEVICE}
 <b>📝 CodeName :</b> ${CODENAME}
