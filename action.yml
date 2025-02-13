@@ -155,10 +155,10 @@ runs:
       run: |
         EV1=$(TZ=Asia/Jakarta date +%Y%m%d)
         EV2=$(grep "PRODUCT_MODEL :=" ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/${{ inputs.DEVICE_PATH }}/twrp_*.mk -m 1 | cut -d = -f 2)
-        EV3=$(ls -lh ${GITHUB_WORKSPACE}OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip | cut -d ' ' -f5)
-        EV4=$(md5sum ${GITHUB_WORKSPACE}OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip | cut -d ' ' -f1)
-        EV5=$(sha1sum ${GITHUB_WORKSPACE}OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip | cut -d ' ' -f1)
-        EV6=$(cd ${GITHUB_WORKSPACE}OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/${{ inputs.DEVICE_PATH }} && git log --pretty=format:'%s' -1)
+        EV3=$(ls -lh ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip | cut -d ' ' -f5)
+        EV4=$(md5sum ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip | cut -d ' ' -f1)
+        EV5=$(sha1sum ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip | cut -d ' ' -f1)
+        EV6=$(cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/${{ inputs.DEVICE_PATH }} && git log --pretty=format:'%s' -1)
         echo "BUILD_DATE=${EV1}" >> $GITHUB_ENV
         echo "DEVICE=${EV2}" >> $GITHUB_ENV
         echo "ORF_SIZE=${EV3}" >> $GITHUB_ENV
