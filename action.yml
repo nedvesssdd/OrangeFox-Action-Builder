@@ -158,25 +158,20 @@ runs:
         EV4=$(md5sum ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip | cut -d ' ' -f1)
         EV5=$(sha1sum ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip | cut -d ' ' -f1)
         EV6=$(cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.FOX_SYNC_BRANCH }}/${{ inputs.DEVICE_PATH }} && git log --pretty=format:'%s' -1)
+        EV7=${{ github.actor }}
+        EV8=${{ github.event.repository.name }}
+        EV9=${{ github.run_id }}
+        EV10=$(grep "#### build completed successfully" $BUILDLOG -m 1 | cut -d '(' -f 2)
         echo "BUILD_DATE=${EV1}" >> $GITHUB_ENV
         echo "DEVICE=${EV2}" >> $GITHUB_ENV
         echo "ORF_SIZE=${EV3}" >> $GITHUB_ENV
         echo "ORF_MD5=${EV4}" >> $GITHUB_ENV
         echo "ORF_SHA1=${EV5}" >> $GITHUB_ENV
         echo "DT_COMMIT=${EV6}" >> $GITHUB_ENV
-
-    - name: 🛰️ Post Build
-      shell: bash
-      env:
-        TG_CHAT_ID: ${{ inputs.TG_CHAT_ID }}
-        TG_TOKEN: ${{ inputs.TG_TOKEN }}
-      run: |
-        source config.sh
-        curl -X POST "https://api.telegram.org/bot${TG_TOKEN}/sendPhoto" \
-        -F chat_id="${TG_CHAT_ID}" \
-        -F photo="${LOGO}" \
-        -F parse_mode="html" \
-        -F caption="<b>🦊 OrangeFox Recovery Builder</b>\n==========================\n<b>✅ Build Completed Successfully</b>\n\n<b>📱 Device :</b> "${{ env.DEVICE }}"\n<b>📝 CodeName :</b> "${{ env.CODENAME }}"\n<b>🖥 Branch Build :</b> "${{ env.FOX_BRANCH }}"\n<b>👩‍💻 Top Commit :</b> "${{ env.DT_COMMIT }}"\n<b>📂 Size :</b> "${{ env.ORF_SIZE }}"\n<b>⏰ Timer Build :</b> "$(grep "#### build completed successfully" $BUILDLOG -m 1 | cut -d '(' -f 2)"\n<b>📥 Download :</b> <a href=\"https://github.com/${{ github.actor }}/${{ github.event.repository.name }}/releases/tag/${{ github.run_id }}\">Download</a>\n<b>📅 Date :</b> "$(TZ=Asia/Jakarta date +%d\ %B\ %Y)"\n<b>🕔 Time :</b> "$(TZ=Asia/Jakarta date +"%T")"\n\n<b>📕 MD5 :-</b> <code>"${{ env.ORF_MD5 }}"</code>\n<b>📘 SHA1 :-</b> <code>"${{ env.ORF_SHA1 }}"</code>\n=========================="
+        echo "ORF_ACTOR=${EV7}" >> $GITHUB_ENV
+        echo "ORF_REPONAME=${EV8}" >> $GITHUB_ENV
+        echo "ORF_ID=${EV9}" >> $GITHUB_ENV
+        echo "ORF_TIME=${EV10}" >> $GITHUB_ENV
 
     - name: 📤 Upload to Release
       uses: softprops/action-gh-release@v2
@@ -198,3 +193,12 @@ runs:
       env:
         FOX_BRANCH: ${{ inputs.FOX_SYNC_BRANCH }}
         CODENAME: ${{ inputs.DEVICE_NAME }}
+
+    - name: 🛰️ Post Build
+      shell: bash
+      env:
+        TG_CHAT_ID: ${{ inputs.TG_CHAT_ID }}
+        TG_TOKEN: ${{ inputs.TG_TOKEN }}
+      run: |
+        source config.sh
+        post_message
