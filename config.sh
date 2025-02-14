@@ -1,8 +1,7 @@
 #!/bin/bash
 export TERM=xterm-256color
 
-LOGO="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYuKUrNG9XTb4Ts5W4gBV61pfgs0Q2wxHuUv1fzKXMYQXF4g1qIYXQgbg&s=10"
-LOGO_BUILD="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6jDWya4wSjAttDfs5svauYOgq8p2fCuVwd89TZB2P0c_RT5qSMPxuIEo&s=10"
+LOGO="https://i.imgur.com/KYD94sP.png"
 
 # Don't change this line
 #===========================================
@@ -101,7 +100,7 @@ tg_send_photo() {
 
 build_message() {
 	if [ "$CI_MESSAGE_ID" = "" ]; then
-CI_MESSAGE_ID=$(tg_send_photo --chat_id "$TG_CHAT_ID" --photo "$LOGO_BUILD" --parse_mode "html" --caption "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
+CI_MESSAGE_ID=$(tg_send_photo --chat_id "$TG_CHAT_ID" --photo "$LOGO" --parse_mode "html" --caption "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
 <b>🖥 OrangeFox Branch :</b> ${FOX_BRANCH}
 <b>📱 Device :</b> ${DEVICE}
 <b>📝 CodeName :</b> ${CODENAME}
