@@ -132,23 +132,24 @@ tg_edit_message_caption --chat_id "$TG_CHAT_ID" --message_id "$CI_MESSAGE_ID" --
 }
 
 post_message() {
-    tg_send_photo --chat_id "$TG_CHAT_ID" --photo "$LOGO" --parse_mode "html" --caption "<b>🦊 OrangeFox Recovery Builder</b>
+    tg_send_photo --chat_id "$TG_CHAT_ID" --photo "$LOGO" --parse_mode "html" --reply_to_message_id "$CI_MESSAGE_ID" --caption "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
 ==========================
 <b>✅ Build Completed Successfully</b>
 
-<b>📱 Device :</b> "${DEVICE}"
-<b>📝 CodeName :</b> "${CODENAME}"
-<b>🖥 Branch Build :</b> "${FOX_BRANCH}"
-<b>👩‍💻 Top Commit :</b> "${DT_COMMIT}"
-<b>📂 Size :</b> "${ORF_SIZE}"
-<b>⏰ Timer Build :</b> "${ORF_TIME}"
+<b>📱 Device :</b> ${DEVICE}
+<b>📝 CodeName :</b> ${CODENAME}
+<b>🖥 Branch Build :</b> ${FOX_BRANCH}
+<b>👩‍💻 Top Commit :</b> ${DT_COMMIT}
+<b>📂 Size :</b> ${ORF_SIZE}
+<b>⏰ Timer Build :</b> ${ORF_TIME}
 <b>📥 Download :</b> <a href=\"https://github.com/${ORF_ACTOR}/${ORF_REPONAME}/releases/tag/${ORF_ID}\">Download</a>
-<b>📅 Date :</b> "$(TZ=Asia/Jakarta date +%d\ %B\ %Y)"
-<b>🕔 Time :</b> "$(TZ=Asia/Jakarta date +"%T")"
+<b>📅 Date :</b> $(TZ=Asia/Jakarta date +%d\ %B\ %Y)
+<b>🕔 Time :</b> $(TZ=Asia/Jakarta date +%T)
 
-<b>📕 MD5 :-</b> <code>"${ORF_MD5}"</code>
-<b>📘 SHA1 :-</b> <code>"${ORF_SHA1}"</code>
-==========================" --reply_to_message_id "$CI_MESSAGE_ID"
+<b>📕 MD5 :-</b> <code>${ORF_MD5}</code>
+<b>📘 SHA1 :-</b> <code>${ORF_SHA1}</code>
+==========================
+"
 }
 
 progress() {
