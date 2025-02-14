@@ -172,7 +172,7 @@ runs:
         TG_TOKEN: ${{ inputs.TG_TOKEN }}
       run: |
         source config.sh
-        curl -X POST -H "Content-Type:multipart/form-data" "https://api.telegram.org/bot${TG_TOKEN}/sendPhoto" \
+        curl -X POST "https://api.telegram.org/bot${TG_TOKEN}/sendPhoto" \
         -F chat_id="${TG_CHAT_ID}" \
         -F photo="${LOGO}" \
         -F parse_mode="html" \
