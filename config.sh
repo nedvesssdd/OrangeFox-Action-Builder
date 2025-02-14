@@ -31,9 +31,9 @@ telegram_curl() {
     local HTTP_REQUEST=${1}
     shift
     if [[ "${HTTP_REQUEST}" != "POST_FILE" ]]; then
-        curl -s -X "${HTTP_REQUEST}" "https://api.telegram.org/bot$TG_TOKEN/$ACTION" "$@" | jq .
+        curl -X "${HTTP_REQUEST}" "https://api.telegram.org/bot$TG_TOKEN/$ACTION" "$@" | jq .
     else
-        curl -s "https://api.telegram.org/bot$TG_TOKEN/$ACTION" "$@" | jq .
+        curl "https://api.telegram.org/bot$TG_TOKEN/$ACTION" "$@" | jq .
     fi
 }
 
@@ -43,7 +43,7 @@ telegram_main() {
     local CURL_ARGUMENTS=()
     while [[ "${#}" -gt 0 ]]; do
         case "${1}" in
-            --animation | --audio | --document | --photo | --video )
+            --animation | --audio | --document | --video )
                 local CURL_ARGUMENTS+=(-F $(echo "${1}" | sed 's/--//')=@"${2}")
                 shift
                 ;;
@@ -87,13 +87,22 @@ tg_edit_message_text() {
     telegram_main editMessageText POST "$@"
 }
 
+tg_edit_message_caption() {
+    telegram_main editMessageCaption POST "$@"
+}
+
 tg_send_document() {
     telegram_main sendDocument POST_FILE "$@"
 }
 
+tg_send_photo() {
+    telegram_main sendPhoto POST "$@"
+}
+}
+
 build_message() {
 	if [ "$CI_MESSAGE_ID" = "" ]; then
-CI_MESSAGE_ID=$(tg_send_message --chat_id "$TG_CHAT_ID" --parse_mode "html" --text "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
+CI_MESSAGE_ID=$(tg_send_photo --chat_id "$TG_CHAT_ID" --photo "$LOGO_BUILD" --parse_mode "html" --caption "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
 <b>🖥 OrangeFox Branch :</b> ${FOX_BRANCH}
 <b>📱 Device :</b> ${DEVICE}
 <b>📝 CodeName :</b> ${CODENAME}
@@ -107,7 +116,7 @@ CI_MESSAGE_ID=$(tg_send_message --chat_id "$TG_CHAT_ID" --parse_mode "html" --te
 <b>⚙️ Status:</b> ${1}
 ${2}" | jq .result.message_id)
 	else
-tg_edit_message_text --chat_id "$TG_CHAT_ID" --message_id "$CI_MESSAGE_ID" --parse_mode "html" --text "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
+tg_edit_message_caption --chat_id "$TG_CHAT_ID" --message_id "$CI_MESSAGE_ID" --parse_mode "html" --caption "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
 <b>🖥 OrangeFox Branch :</b> ${FOX_BRANCH}
 <b>📱 Device :</b> ${DEVICE}
 <b>📝 CodeName :</b> ${CODENAME}
