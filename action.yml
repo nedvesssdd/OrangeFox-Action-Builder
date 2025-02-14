@@ -196,6 +196,8 @@ runs:
       env:
         TG_CHAT_ID: ${{ inputs.TG_CHAT_ID }}
         TG_TOKEN: ${{ inputs.TG_TOKEN }}
+        FOX_BRANCH: ${{ inputs.FOX_SYNC_BRANCH }}
+        CODENAME: ${{ inputs.DEVICE_NAME }}
       run: |
         source config.sh
         post_message
