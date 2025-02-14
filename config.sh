@@ -31,9 +31,9 @@ telegram_curl() {
     local HTTP_REQUEST=${1}
     shift
     if [[ "${HTTP_REQUEST}" != "POST_FILE" ]]; then
-        curl -s -X "${HTTP_REQUEST}" "https://api.telegram.org/bot$TG_TOKEN/$ACTION" "$@" | jq .
+        curl -s -X "${HTTP_REQUEST}" -H "Content-Type:multipart/form-data"  "https://api.telegram.org/bot$TG_TOKEN/$ACTION" "$@" | jq .
     else
-        curl -s "https://api.telegram.org/bot$TG_TOKEN/$ACTION" "$@" | jq .
+        curl -s -X "POST" -H "Content-Type:multipart/form-data"  "https://api.telegram.org/bot$TG_TOKEN/$ACTION" "$@" | jq .
     fi
 }
 
@@ -87,21 +87,13 @@ tg_edit_message_text() {
     telegram_main editMessageText POST "$@"
 }
 
-tg_edit_message_media() {
-    telegram_main editMessageMedia POST "$@"
-}
-
 tg_send_document() {
     telegram_main sendDocument POST_FILE "$@"
 }
 
-tg_send_photo() {
-    telegram_main sendPhoto POST "$@"
-}
-
 build_message() {
 	if [ "$CI_MESSAGE_ID" = "" ]; then
-CI_MESSAGE_ID=$(tg_send_photo --chat_id "$TG_CHAT_ID" --photo "${LOGO_BUILD}" --parse_mode "html" --text "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
+CI_MESSAGE_ID=$(tg_send_message --chat_id "$TG_CHAT_ID" --parse_mode "html" --caption "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
 <b>🖥 OrangeFox Branch :</b> ${FOX_BRANCH}
 <b>📱 Device :</b> ${DEVICE}
 <b>📝 CodeName :</b> ${CODENAME}
@@ -115,7 +107,7 @@ CI_MESSAGE_ID=$(tg_send_photo --chat_id "$TG_CHAT_ID" --photo "${LOGO_BUILD}" --
 <b>⚙️ Status:</b> ${1}
 ${2}" | jq .result.message_id)
 	else
-tg_edit_message_media --chat_id "$TG_CHAT_ID" --message_id "$CI_MESSAGE_ID" --parse_mode "html" --text "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
+tg_edit_message_text --chat_id "$TG_CHAT_ID" --message_id "$CI_MESSAGE_ID" --parse_mode "html" --caption "<b>=== 🦊 OrangeFox Recovery Builder ===</b>
 <b>🖥 OrangeFox Branch :</b> ${FOX_BRANCH}
 <b>📱 Device :</b> ${DEVICE}
 <b>📝 CodeName :</b> ${CODENAME}
@@ -129,26 +121,6 @@ tg_edit_message_media --chat_id "$TG_CHAT_ID" --message_id "$CI_MESSAGE_ID" --pa
 <b>⚙️ Status :</b> <code>${1}</code>
 <code>${2}</code>"
 	fi
-}
-
-post_message() {
-    tg_send_photo --chat_id "${TG_CHAT_ID}" --photo "${LOGO}" --parse_mode "html" --text "<b>🦊 OrangeFox Recovery Builder</b>
-==========================
-<b>✅ Build Completed Successfully</b>
-
-<b>📱 Device :</b> "${{ env.DEVICE }}"
-<b>📝 CodeName :</b> "${{ env.CODENAME }}"
-<b>🖥 Branch Build :</b> "${{ env.FOX_BRANCH }}"
-<b>👩‍💻 Top Commit :</b> "${{ env.DT_COMMIT }}"
-<b>📂 Size :</b> "${{ env.ORF_SIZE }}"
-<b>⏰ Timer Build :</b> "$(grep "#### build completed successfully" $BUILDLOG -m 1 | cut -d '(' -f 2)"
-<b>📥 Download :</b> <a href=\"https://github.com/${{ github.actor }}/${{ github.event.repository.name }}/releases/tag/${{ github.run_id }}\">Download</a>
-<b>📅 Date :</b> "$(TZ=Asia/Jakarta date +%d\ %B\ %Y)"
-<b>🕔 Time :</b> "$(TZ=Asia/Jakarta date +"%T")"
-
-<b>📕 MD5 :-</b> <code>"${{ env.ORF_MD5 }}"</code>
-<b>📘 SHA1 :-</b> <code>"${{ env.ORF_SHA1 }}"</code>
-=========================="
 }
 
 progress() {
@@ -383,7 +355,7 @@ statusBuild() {
         build_message "Build Aborted 😡 with Code Exit ${retVal}.
 
 Total time elapsed: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
-        tg_send_message --chat_id "$TG_CHAT_ID_SECOND" --text "Build Aborted 💔 with Code Exit ${retVal}."
+        tg_send_message --chat_id "$TG_CHAT_ID_SECOND" --caption "Build Aborted 💔 with Code Exit ${retVal}."
         echo -e ${red} "Build Aborted"
         tg_send_document --chat_id "$TG_CHAT_ID" --document "$BUILDLOG" --reply_to_message_id "$CI_MESSAGE_ID"
         LOGTRIM="$CDIR/out/log_trimmed.log"
@@ -395,7 +367,7 @@ Total time elapsed: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
         build_message "Build Aborted 👎 with Code Exit ${retVal}, See log.
 
 Total time elapsed: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
-        tg_send_message --chat_id "$TG_CHAT_ID_SECOND" --text "Build Aborted ❌ with Code Exit ${retVal}."
+        tg_send_message --chat_id "$TG_CHAT_ID_SECOND" --caption "Build Aborted ❌ with Code Exit ${retVal}."
         echo -e ${red} "Build Aborted"
         tg_send_document --chat_id "$TG_CHAT_ID" --document "$BUILDLOG" --reply_to_message_id "$CI_MESSAGE_ID"
         LOGTRIM="$CDIR/out/log_trimmed.log"
@@ -407,7 +379,7 @@ Total time elapsed: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
         build_message "Build Error ❌ with Code Exit ${retVal}, See log.
 
 Total time elapsed: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
-        tg_send_message --chat_id "$TG_CHAT_ID_SECOND" --text "Build Error ❌ with Code Exit ${retVal}."
+        tg_send_message --chat_id "$TG_CHAT_ID_SECOND" --caption "Build Error ❌ with Code Exit ${retVal}."
         echo -e ${red} "Build Error"
         tg_send_document --chat_id "$TG_CHAT_ID" --document "$BUILDLOG" --reply_to_message_id "$CI_MESSAGE_ID"
         LOGTRIM="$CDIR/out/log_trimmed.log"
