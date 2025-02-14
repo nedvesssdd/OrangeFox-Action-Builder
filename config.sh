@@ -15,7 +15,7 @@ cya=$(tput setaf 6)             #  cyan
 txtrst=$(tput sgr0)             #  Reset
 
 timeStart() {
-    DATELOG=$(TZ=Asia/Jakarta date "+%H%M-%d%m%Y")
+    DATELOG=$(TZ=Asia/Jakarta date +"%H%M-%d%m%Y")
     BUILD_START=$(TZ=Asia/Jakarta date +"%s")
     DATE=$(TZ=Asia/Jakarta date)
 }
