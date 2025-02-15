@@ -9,6 +9,10 @@
 [![](https://img.shields.io/github/v/release/UntuMbeldos/OrangeFox-Action-Builder?style=for-the-badge&color=fee4d0&logo=github&logoColor=fee4d0)](https://github.com/UntuMbeldos/OrangeFox-Action-Builder/releases/latest)
 [![](https://img.shields.io/github/last-commit/UntuMbeldos/OrangeFox-Action-Builder?style=for-the-badge&color=fee4d0&logo=codeigniter&logoColor=fee4d0)](https://github.com/UntuMbeldos/OrangeFox-Action-Builder/commits/main/)
 
+> [!WARNING]
+>
+> These workflows are designed only for building orangefox recovery 12.1
+
 > [!IMPORTANT]
 > This workflow is universal. You need to have a certain foundation in writing github workflows and a little knowledge of the OrangeFox device tree to use this.
 
@@ -56,3 +60,19 @@ Or use the [preset workflow file](https://github.com/UntuMbeldos/OrangeFox-Actio
 - Finally, run the workflow you just wrote.
 ## Inputs
 | input               | required | description | example value |
+|---------------------|----------|-------------|---------|
+| KERNEL_TREE | false | URL of Android kernel source code for your phone | https://github.com/username/project |
+| KERNEL_BRANCH | false | Branch On Your Kernel Tree | 12.1 |
+| KERNEL_PATH | false | Path On Your Kernel Directory | kernel/vivo/1938 |
+| DEVICE_TREE | true | URL of Orangefox device tree in your phone | https://github.com/username/project |
+| DEVICE_TREE_BRANCH | true | OrangeFox Device Tree Branch | 12.1 |
+| DEVICE_PATH | true | Specify Your Device Path | device/vivo/1938 |
+| DEVICE_NAME | true | Specify Your Device Codename | 1938 |
+| BUILD_TARGET | true | Specify Your Build Target [boot, recovery, vendorboot] | recovery |
+| COMMON_TREE | false | URL Common Tree On Your Device | https://github.com/username/project |
+| COMMON_BRANCH | false | Branch On Your Common Tree | 12.1 |
+| COMMON_PATH | false | Path On Your Common Directory | common/vivo/1938 |
+| MAINTAINER_URL | false | Image size must be 192x192 | https://github.com/username/project |
+| GH_RELEASE | true | Upload Build To Github Release | Default is [false] |
+| TG_CHAT_ID | false | Telegram Chat ID | -123456789 |
+| TG_TOKEN | false | Telegram Bot Token | 123456:12345678987654321 |
