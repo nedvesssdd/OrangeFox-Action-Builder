@@ -1,17 +1,15 @@
 # OrangeFox Action Builder
 Compile your first custom recovery from OrangeFox Recovery using Github Action.
 
-# How to Use
-1. Fork this repository.
+🦊 A Workflow to build OrangeFox recovery automatically
 
-2. Go to `Action` tab > `All workflows` > `OrangeFox - Build` > `Run workflow`, then fill all the required information:
- * MANIFEST_BRANCH (`12.1` and `11.0`)
- * DEVICE_TREE (Your device tree repository link.)
- * DEVICE_TREE_BRANCH (Your device tree repository branch.)
- * DEVICE_PATH (`device/vendor/codename`)
- * DEVICE_NAME (Your device codename)
- * BUILD_TARGET (`boot`, `recovery`, `vendorboot`)
+[![](https://img.shields.io/github/actions/workflow/status/UntuMbeldos/OrangeFox-Action-Builder/test.yml?style=for-the-badge&color=fee4d0&logo=githubactions&logoColor=fee4d0)](https://github.com/UntuMbeldos/OrangeFox-Action-Builder/actions/workflows/test.yml)
+[![](https://img.shields.io/github/issues/UntuMbeldos/OrangeFox-Action-Builder?style=for-the-badge&color=fee4d0&logo=files&logoColor=fee4d0)](https://github.com/UntuMbeldos/OrangeFox-Action-Builder/issues)
+[![](https://img.shields.io/github/stars/UntuMbeldos/OrangeFox-Action-Builder?style=for-the-badge&color=fee4d0&logo=starship&logoColor=fee4d0)](https://github.com/UntuMbeldos/OrangeFox-Action-Builder/stargazers)
+[![](https://img.shields.io/github/forks/UntuMbeldos/OrangeFox-Action-Builder?style=for-the-badge&color=fee4d0&logo=git&logoColor=fee4d0)](https://github.com/UntuMbeldos/OrangeFox-Action-Builder/forks)
+[![](https://img.shields.io/github/license/UntuMbeldos/OrangeFox-Action-Builder?style=for-the-badge&color=fee4d0&logo=apache&logoColor=fee4d0)](https://github.com/UntuMbeldos/OrangeFox-Action-Builder/blob/main/LICENSE)
+[![](https://img.shields.io/github/v/release/UntuMbeldos/OrangeFox-Action-Builder?style=for-the-badge&color=fee4d0&logo=github&logoColor=fee4d0)](https://github.com/UntuMbeldos/OrangeFox-Action-Builder/releases/latest)
+[![](https://img.shields.io/github/last-commit/UntuMbeldos/OrangeFox-Action-Builder?style=for-the-badge&color=fee4d0&logo=codeigniter&logoColor=fee4d0)](https://github.com/UntuMbeldos/OrangeFox-Action-Builder/commits/main/)
 
- # Note
-* This action will now only support manifest 12.1 and 11.0, since all orangefox manifest below 11.0 are considered obsolete.
-* Make sure your tree uses right variable (updated vars) from OrangeFox; [fox_11.0](https://gitlab.com/OrangeFox/vendor/recovery/-/blob/fox_11.0/orangefox_build_vars.txt) and [fox_12.1](https://gitlab.com/OrangeFox/vendor/recovery/-/blob/fox_12.1/orangefox_build_vars.txt), to avoid build erros.
+> [!IMPORTANT]
+> This workflow is universal. You need to have a certain foundation in writing github workflows and a little knowledge of the OrangeFox device tree to use this.
