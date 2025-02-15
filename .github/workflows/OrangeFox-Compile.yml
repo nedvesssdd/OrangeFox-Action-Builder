@@ -15,7 +15,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: OrangeFox Build Test
-      uses: UntuMbeldos/OrangeFox-Action-Builder@v1
+      uses: UntuMbeldos/OrangeFox-Action-Builder@main
       with:
         FOX_SYNC_BRANCH: '12.1'
         DEVICE_TREE: 'https://github.com/UntuKemeng/ORF_device_vivo_1938'
