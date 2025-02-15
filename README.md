@@ -1,6 +1,4 @@
 # OrangeFox Action Builder
-Compile your first custom recovery from OrangeFox Recovery using Github Action.
-
 🦊 A Workflow to build OrangeFox recovery automatically
 
 [![](https://img.shields.io/github/actions/workflow/status/UntuMbeldos/OrangeFox-Action-Builder/test.yml?style=for-the-badge&color=fee4d0&logo=githubactions&logoColor=fee4d0)](https://github.com/UntuMbeldos/OrangeFox-Action-Builder/actions/workflows/test.yml)
@@ -13,3 +11,48 @@ Compile your first custom recovery from OrangeFox Recovery using Github Action.
 
 > [!IMPORTANT]
 > This workflow is universal. You need to have a certain foundation in writing github workflows and a little knowledge of the OrangeFox device tree to use this.
+
+## How to use?
+- Find your kernel source || orf common tree || orf device tree repository and configure the workflow file according to the following example and README.md:
+
+```yml
+name: OrangeFox - Builder
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: 🦊 Building OrangeFox Recovery
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    permissions: write-all
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: OrangeFox Build Test
+      uses: ./
+      with:
+        FOX_SYNC_BRANCH: '12.1'
+        DEVICE_TREE: 'https://github.com/UntuKemeng/ORF_device_vivo_1938'
+        DEVICE_TREE_BRANCH: '12.1'
+        DEVICE_PATH: 'device/vivo/1938'
+        DEVICE_NAME: '1938'
+        BUILD_TARGET: 'recovery'
+        TG_CHAT_ID: '${{ secrets.TG_CHAT_ID }}'
+        TG_TOKEN: '${{ secrets.TG_TOKEN }}'
+        MAINTAINER_URL: 'https://i.ibb.co.com/8gyjXq06/maintainer.png'
+        GH_RELEASE: 'true'
+```
+Or use the [preset workflow file](https://github.com/UntuMbeldos/OrangeFox-Action-Builder/blob/main/.github/workflows/test.yml) to modify it.
+
+> [!NOTE]
+> You do not need to fork this repository.
+>
+> If you just want to compile the Orangefox recovery, please do not submit PR after modification!
+
+- Finally, run the workflow you just wrote.
+## Inputs
+| input               | required | description | example value |
