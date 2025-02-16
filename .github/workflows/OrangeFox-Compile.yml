@@ -2,6 +2,7 @@ name: OrangeFox - Builder
 
 on:
   workflow_dispatch:
+  push:
 
 jobs:
   build:
@@ -17,16 +18,16 @@ jobs:
     - name: env default
       run: env
 
-    - name: OrangeFox Build Test
-      uses: UntuMbeldos/OrangeFox-Action-Builder@main
-      with:
-        FOX_SYNC_BRANCH: '12.1'
-        DEVICE_TREE: 'https://github.com/UntuKemeng/ORF_device_vivo_1938'
-        DEVICE_TREE_BRANCH: '12.1'
-        DEVICE_PATH: 'device/vivo/1938'
-        DEVICE_NAME: '1938'
-        BUILD_TARGET: 'recovery'
-        TG_CHAT_ID: '${{ secrets.TG_CHAT_ID }}'
-        TG_TOKEN: '${{ secrets.TG_TOKEN }}'
-        MAINTAINER_URL: 'https://i.ibb.co.com/8gyjXq06/maintainer.png'
-        GH_RELEASE: 'true'
+    # - name: OrangeFox Build Test
+      # uses: UntuMbeldos/OrangeFox-Action-Builder@main
+      # with:
+        # FOX_SYNC_BRANCH: '12.1'
+        # DEVICE_TREE: 'https://github.com/UntuKemeng/ORF_device_vivo_1938'
+        # DEVICE_TREE_BRANCH: '12.1'
+        # DEVICE_PATH: 'device/vivo/1938'
+        # DEVICE_NAME: '1938'
+        # BUILD_TARGET: 'recovery'
+        # TG_CHAT_ID: '${{ secrets.TG_CHAT_ID }}'
+        # TG_TOKEN: '${{ secrets.TG_TOKEN }}'
+        # MAINTAINER_URL: 'https://i.ibb.co.com/8gyjXq06/maintainer.png'
+        # GH_RELEASE: 'true'
