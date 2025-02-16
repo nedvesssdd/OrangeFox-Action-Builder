@@ -21,7 +21,8 @@ jobs:
     - name: OrangeFox Build Test
       uses: UntuMbeldos/OrangeFox-Action-Builder@main
       with:
-        FOX_SYNC_BRANCH: '12.1'
+        USER_NAME: 'UntuKemeng'
+        USER_EMAIL: 'jarbull87@gmail.com'
         DEVICE_TREE: 'https://github.com/UntuKemeng/ORF_device_vivo_1938'
         DEVICE_TREE_BRANCH: '12.1'
         DEVICE_PATH: 'device/vivo/1938'
