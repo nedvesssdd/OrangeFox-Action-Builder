@@ -23,11 +23,11 @@ jobs:
       with:
         USER_NAME: 'UntuKemeng'
         USER_EMAIL: 'jarbull87@gmail.com'
-        DEVICE_TREE: 'https://github.com/gawasvedraj/device_xiaomi_stone_twrp'
+        DEVICE_TREE: 'https://github.com/UntuKemeng/device_xiaomi_stone_twrp'
         DEVICE_TREE_BRANCH: 'master'
         DEVICE_PATH: 'device/xiaomi/stone'
         DEVICE_NAME: 'stone'
-        BUILD_TARGET: 'recovery'
+        BUILD_TARGET: 'boot'
         TG_CHAT_ID: '${{ secrets.TG_CHAT_ID }}'
         TG_TOKEN: '${{ secrets.TG_TOKEN }}'
         MAINTAINER_URL: 'https://i.ibb.co.com/8gyjXq06/maintainer.png'
